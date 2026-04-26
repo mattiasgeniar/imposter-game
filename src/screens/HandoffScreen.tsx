@@ -13,8 +13,9 @@ type Props = {
 export function HandoffScreen({ name, index, total, variant, onContinue }: Props) {
   const t = useT()
   const subtitle = variant === 'reveal' ? t('handoff.reveal.subtitle') : t('handoff.vote.subtitle')
+  const tap = variant === 'reveal' ? t('handoff.reveal.tap') : t('handoff.vote.tap')
   return (
-    <Screen footer={<Button onClick={onContinue}>{t('handoff.tap')}</Button>}>
+    <Screen footer={<Button onClick={onContinue}>{tap}</Button>}>
       <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 px-4">
         <div className="text-6xl" aria-hidden>📱</div>
         <p className="text-white/60 uppercase tracking-widest text-xs">

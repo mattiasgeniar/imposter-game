@@ -49,7 +49,8 @@
   "install.toast.iosSubtitle": "Tik op delen en kies 'Zet op beginscherm'.",
 
   "handoff.passTo": "Geef de telefoon aan",
-  "handoff.tap": "Klaar — toon woord",
+  "handoff.reveal.tap": "Klaar — toon woord",
+  "handoff.vote.tap": "Klaar — open stemming",
   "handoff.reveal.subtitle": "Houd je woord geheim voor de anderen.",
   "handoff.vote.subtitle": "Tijd om te stemmen. Niemand mag mee kijken.",
   "handoff.progress": "{current} van {total}",

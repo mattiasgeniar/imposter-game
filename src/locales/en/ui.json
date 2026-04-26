@@ -49,7 +49,8 @@
   "install.toast.iosSubtitle": "Tap Share, then 'Add to Home Screen'.",
 
   "handoff.passTo": "Pass the phone to",
-  "handoff.tap": "Ready — show word",
+  "handoff.reveal.tap": "Ready — show word",
+  "handoff.vote.tap": "Ready — open vote",
   "handoff.reveal.subtitle": "Keep your word secret from the others.",
   "handoff.vote.subtitle": "Time to vote. Don't let anyone peek.",
   "handoff.progress": "{current} of {total}",
