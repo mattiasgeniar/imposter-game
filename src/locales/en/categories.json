@@ -1,0 +1,72 @@
+{
+  "party": {
+    "name": "Party Time",
+    "description": "Fun, laughs, and a bit of chaos — perfect for any group.",
+    "emoji": "🎉"
+  },
+  "food": {
+    "name": "Food",
+    "description": "Tasty topics — say the wrong thing and you're toast.",
+    "emoji": "🍕"
+  },
+  "celebrities": {
+    "name": "Celebrities",
+    "description": "Famous names from film, music and sport. Pretend you know them.",
+    "emoji": "⭐"
+  },
+  "hobbies": {
+    "name": "Hobbies",
+    "description": "Passions and pastimes — is your hobby the imposter?",
+    "emoji": "🎨"
+  },
+  "family": {
+    "name": "Family",
+    "description": "You know family best — but can they catch you bluffing?",
+    "emoji": "🏡"
+  },
+  "brands": {
+    "name": "Brands",
+    "description": "Familiar names and everyday things — recognise them or fake it.",
+    "emoji": "👟"
+  },
+  "places": {
+    "name": "Places",
+    "description": "Countries, cities, monuments — pretend you've been there.",
+    "emoji": "🌍"
+  },
+  "animals": {
+    "name": "Animals",
+    "description": "From pets to wild beasts — can you blend in with the herd?",
+    "emoji": "🐶"
+  },
+  "sports": {
+    "name": "Sports",
+    "description": "Whether you're a fan or faking it — keep a straight face.",
+    "emoji": "⚽"
+  },
+  "films": {
+    "name": "Films",
+    "description": "Classics and blockbusters — can you bluff your way through movie night?",
+    "emoji": "🎬"
+  },
+  "music": {
+    "name": "Music",
+    "description": "Genres, festivals, hits — can you find the right note?",
+    "emoji": "🎵"
+  },
+  "jobs": {
+    "name": "Jobs",
+    "description": "What do people do all day? Play your part well.",
+    "emoji": "💼"
+  },
+  "technology": {
+    "name": "Technology",
+    "description": "Apps, gadgets and everything that beeps — pretend you get it.",
+    "emoji": "📱"
+  },
+  "spicy": {
+    "name": "Spicy",
+    "description": "Bold and a little risky — perfect for tension and laughs.",
+    "emoji": "🌶️"
+  }
+}

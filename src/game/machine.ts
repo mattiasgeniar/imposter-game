@@ -1,0 +1,149 @@
+import type { CategoryWord, GameState, Round, Settings, Winner } from './types'
+import { startRound, tallyVotes } from './round'
+import { loadCategories, loadPlayers, loadSettings } from './persistence'
+
+type Action =
+  | { type: 'goto'; phase: GameState['phase'] }
+  | { type: 'addPlayer'; name: string }
+  | { type: 'removePlayer'; index: number }
+  | { type: 'toggleCategory'; id: string }
+  | { type: 'setSettings'; settings: Settings }
+  | { type: 'startRound'; words: Record<string, CategoryWord[]> }
+  | { type: 'advanceReveal' }
+  | { type: 'finishPlay' }
+  | { type: 'castVote'; voter: number; target: number }
+  | { type: 'imposterGuess'; word: string }
+  | { type: 'reset' }
+
+export type { Action }
+
+function clampImposterCount(count: number, playerCount: number): number {
+  if (playerCount < 3) return 1
+  return Math.max(1, Math.min(count, playerCount - 1))
+}
+
+function clampSettings(settings: Settings, playerCount: number): Settings {
+  return {
+    ...settings,
+    imposterCount: clampImposterCount(settings.imposterCount, playerCount),
+  }
+}
+
+export function initialState(): GameState {
+  const players = loadPlayers()
+  return {
+    phase: 'home',
+    players,
+    selectedCategoryIds: loadCategories(),
+    settings: clampSettings(loadSettings(), players.length),
+    cursor: 0,
+    round: null,
+    resultMostVoted: null,
+    winner: null,
+  }
+}
+
+export function reducer(state: GameState, action: Action): GameState {
+  switch (action.type) {
+    case 'goto':
+      return { ...state, phase: action.phase }
+
+    case 'addPlayer': {
+      const trimmed = action.name.trim()
+      if (!trimmed) return state
+      if (state.players.includes(trimmed)) return state
+      return { ...state, players: [...state.players, trimmed] }
+    }
+
+    case 'removePlayer': {
+      const players = state.players.filter((_, i) => i !== action.index)
+      return { ...state, players, settings: clampSettings(state.settings, players.length) }
+    }
+
+    case 'toggleCategory': {
+      const has = state.selectedCategoryIds.includes(action.id)
+      const next = has
+        ? state.selectedCategoryIds.filter((i) => i !== action.id)
+        : [...state.selectedCategoryIds, action.id]
+      return { ...state, selectedCategoryIds: next }
+    }
+
+    case 'setSettings':
+      return { ...state, settings: clampSettings(action.settings, state.players.length) }
+
+    case 'startRound': {
+      const round = startRound(state.players, state.selectedCategoryIds, action.words, state.settings)
+      if (!round) return state
+      return { ...state, round, phase: 'handoff', cursor: 0, resultMostVoted: null, winner: null }
+    }
+
+    case 'advanceReveal': {
+      if (!state.round) return state
+      const nextCursor = state.cursor + 1
+      if (nextCursor >= state.players.length) {
+        return { ...state, phase: 'play', cursor: 0 }
+      }
+      return { ...state, phase: 'handoff', cursor: nextCursor }
+    }
+
+    case 'finishPlay':
+      return { ...state, phase: 'voteHandoff', cursor: 0 }
+
+    case 'castVote': {
+      if (!state.round) return state
+      // Reducer enforces invariants: only the player at the cursor may vote, and
+      // only for a valid candidate. The screen filters the UI but should not be trusted.
+      if (action.voter !== state.cursor) return state
+      if (state.round.votes[action.voter] !== null) return state
+      const candidates = state.round.tieRevoteAmong ?? state.players.map((_, i) => i)
+      if (action.target === action.voter) return state
+      if (!candidates.includes(action.target)) return state
+      const votes = state.round.votes.slice()
+      votes[action.voter] = action.target
+      const nextVoter = action.voter + 1
+      const round: Round = { ...state.round, votes }
+
+      if (nextVoter < state.players.length) {
+        return { ...state, round, phase: 'voteHandoff', cursor: nextVoter }
+      }
+
+      const top = tallyVotes(round.votes, round.tieRevoteAmong)
+
+      // Nobody got a vote (defensive — shouldn't happen since every voter must select)
+      if (top.length === 0) {
+        return { ...state, round, resultMostVoted: [], winner: 'imposter', phase: 'result' }
+      }
+
+      // Tie
+      if (top.length > 1) {
+        if (round.tieRevoteAmong) {
+          return { ...state, round, resultMostVoted: top, winner: 'imposter', phase: 'result' }
+        }
+        return {
+          ...state,
+          round: { ...round, tieRevoteAmong: top, votes: round.votes.map(() => null) },
+          phase: 'voteHandoff',
+          cursor: 0,
+        }
+      }
+
+      // Single most-voted
+      const eliminated = top[0]
+      const isImposter = round.imposterIndices.includes(eliminated)
+      const winner: Winner | null = isImposter ? null : 'imposter'
+      return { ...state, round, resultMostVoted: top, winner, phase: 'result' }
+    }
+
+    case 'imposterGuess': {
+      if (!state.round) return state
+      const correct = action.word.toLocaleLowerCase() === state.round.word.toLocaleLowerCase()
+      return { ...state, winner: correct ? 'imposter' : 'crew', phase: 'roundEnd' }
+    }
+
+    case 'reset':
+      return { ...state, phase: 'home', round: null, resultMostVoted: null, winner: null, cursor: 0 }
+
+    default:
+      return state
+  }
+}

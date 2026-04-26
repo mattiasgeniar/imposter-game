@@ -1,0 +1,77 @@
+{
+  "common.back": "Terug",
+
+  "home.title": "Imposter",
+  "home.subtitle": "Eén toestel. Een geheim woord. Vind de imposter.",
+  "home.start": "Spelen",
+  "home.settingsLink": "Instellingen",
+
+  "players.title": "Spelers",
+  "players.placeholder": "Spelernaam",
+  "players.add": "Voeg toe",
+  "players.remove": "Verwijder",
+  "players.continue": "Doorgaan",
+  "players.countSuffix": "{count} spelers",
+  "players.minHint": "Voeg minstens {min} spelers toe.",
+
+  "categories.title": "Categorieën",
+  "categories.continue": "Spelen",
+  "categories.countSuffix": "{count} gekozen",
+
+  "settings.title": "Spelinstellingen",
+  "settings.start": "Start ronde",
+  "settings.imposters.title": "Imposters",
+  "settings.imposters.subtitle": "Hoeveel geheime imposters er zijn.",
+  "settings.imposters.decrease": "Eén imposter minder",
+  "settings.imposters.increase": "Eén imposter meer",
+  "settings.time.title": "Rondetijd",
+  "settings.time.subtitle": "Hoe lang elke discussieronde duurt.",
+  "settings.time.decrease": "Korter",
+  "settings.time.increase": "Langer",
+  "settings.hints.title": "Hints voor imposters",
+  "settings.hints.subtitle": "Krijgt de imposter een verwante hint over het woord?",
+  "settings.hints.on": "Aan",
+  "settings.hints.off": "Uit",
+  "settings.language.title": "Taal",
+  "settings.language.subtitle": "Verandert de UI en de woordenlijsten.",
+
+  "handoff.passTo": "Geef de telefoon aan",
+  "handoff.tap": "Klaar — toon woord",
+  "handoff.reveal.subtitle": "Houd je woord geheim voor de anderen.",
+  "handoff.vote.subtitle": "Tijd om te stemmen. Niemand mag mee kijken.",
+  "handoff.progress": "{current} van {total}",
+
+  "reveal.youAre": "Je bent",
+  "reveal.theWord": "Het geheime woord",
+  "reveal.imposter": "IMPOSTER",
+  "reveal.hintLabel": "Hint",
+  "reveal.holdPrompt": "Hou ingedrukt om te onthullen",
+  "reveal.holdHint": "Loslaten verbergt het woord opnieuw.",
+  "reveal.continue": "Doorgaan",
+
+  "play.category": "Categorie",
+  "play.instructions": "Iedereen om beurt: zeg één woord dat met het geheim te maken heeft. De imposter bluft mee.",
+  "play.skip": "Klaar — naar stemmen",
+  "play.toVote": "Tijd om te stemmen",
+
+  "vote.youAre": "Je bent",
+  "vote.prompt": "Wie denk je dat de imposter is?",
+  "vote.confirm": "Bevestig stem",
+
+  "result.mostVoted": "Meeste stemmen",
+  "result.wasImposter": "Was een imposter!",
+  "result.wasInnocent": "Was géén imposter!",
+  "result.imposterWere": "De imposter(s) waren: {names}",
+  "result.continue": "Doorgaan",
+
+  "guess.youAre": "Je bent betrapt",
+  "guess.prompt": "Laatste kans: kies het juiste geheime woord uit de categorie om alsnog te winnen.",
+  "guess.confirm": "Bevestig keuze",
+
+  "roundEnd.crewWins": "De groep wint!",
+  "roundEnd.imposterWins": "De imposter wint!",
+  "roundEnd.theWord": "Het geheime woord was",
+  "roundEnd.imposterWas": "Imposter(s): {names}",
+  "roundEnd.playAgain": "Speel opnieuw",
+  "roundEnd.home": "Naar startscherm"
+}

@@ -1,0 +1,72 @@
+{
+  "party": {
+    "name": "Feesttijd",
+    "description": "Plezier, lol en lichte chaos — perfect voor elke groep.",
+    "emoji": "🎉"
+  },
+  "food": {
+    "name": "Eten",
+    "description": "Lekkere onderwerpen, maar zeg het verkeerde en je bent erbij.",
+    "emoji": "🍕"
+  },
+  "celebrities": {
+    "name": "Beroemdheden",
+    "description": "Bekende namen uit film, muziek en sport. Doe alsof je het weet.",
+    "emoji": "⭐"
+  },
+  "hobbies": {
+    "name": "Hobby's",
+    "description": "Passies en tijdverdrijf — is jouw hobby de imposter?",
+    "emoji": "🎨"
+  },
+  "family": {
+    "name": "Familie",
+    "description": "Familie ken je het best — maar kan ze jou ook betrappen als je bluft?",
+    "emoji": "🏡"
+  },
+  "brands": {
+    "name": "Merken",
+    "description": "Bekende namen en alledaagse spullen — herken ze of doe alsof.",
+    "emoji": "👟"
+  },
+  "places": {
+    "name": "Plaatsen",
+    "description": "Landen, monumenten, steden — doe alsof je er geweest bent.",
+    "emoji": "🌍"
+  },
+  "animals": {
+    "name": "Dieren",
+    "description": "Van huisdieren tot wilde beesten — kun jij erbij horen?",
+    "emoji": "🐶"
+  },
+  "sports": {
+    "name": "Sport",
+    "description": "Of je nu fan bent of liegt, hou een strak gezicht.",
+    "emoji": "⚽"
+  },
+  "films": {
+    "name": "Films",
+    "description": "Klassiekers en blockbusters — bluff jij je door het filmcafé?",
+    "emoji": "🎬"
+  },
+  "music": {
+    "name": "Muziek",
+    "description": "Genres, festivals, hits — ken jij de juiste toon?",
+    "emoji": "🎵"
+  },
+  "jobs": {
+    "name": "Beroepen",
+    "description": "Wat doen mensen de hele dag? Speel je vak goed.",
+    "emoji": "💼"
+  },
+  "technology": {
+    "name": "Technologie",
+    "description": "Apps, gadgets en alles wat blinkt — doe of je het snapt.",
+    "emoji": "📱"
+  },
+  "spicy": {
+    "name": "Pikant",
+    "description": "Gedurfd en brutaal — perfect om de spanning op te wekken.",
+    "emoji": "🌶️"
+  }
+}

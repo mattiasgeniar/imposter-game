@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --safe-t: env(safe-area-inset-top);
+  --safe-b: env(safe-area-inset-bottom);
+  /* iOS-style spring-ish easing — used for nav transitions and tap feedback */
+  --ios-ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --nav-duration: 380ms;
+}
+
+html, body, #root {
+  height: 100%;
+  background: #0b0d12;
+  color: #f3f4f6;
+  font-family: -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+@layer utilities {
+  .h-dvh { height: 100dvh; }
+  .min-h-dvh { min-height: 100dvh; }
+  .pt-safe { padding-top: max(env(safe-area-inset-top), 0.75rem); }
+  .pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0.75rem); }
+  .pl-safe { padding-left: max(env(safe-area-inset-left), 0.75rem); }
+  .pr-safe { padding-right: max(env(safe-area-inset-right), 0.75rem); }
+  .scroll-smooth-y {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Shared iOS-style tap feedback. Components keep their own colour transitions
+     and add this class for the press scale + matching easing. */
+  .press-ios,
+  .press-ios-soft {
+    transition-property: transform, background-color, border-color, color, opacity, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: var(--ios-ease);
+  }
+  .press-ios:active:not(:disabled) { transform: scale(0.97); }
+  .press-ios-soft:active:not(:disabled) { transform: scale(0.985); }
+}
+
+/* iOS-style screen transitions via the View Transitions API.
+   Forward (default): new view slides in from the right, old view drifts ~25% left + dims (parallax).
+   Back (data-nav="back"): old view slides out to the right, new view comes from the parallax-left position.
+   Falls back to a plain swap on browsers that don't support startViewTransition. */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--nav-duration);
+  animation-timing-function: var(--ios-ease);
+  animation-fill-mode: both;
+}
+
+::view-transition-old(root) { animation-name: ios-slide-out-left; }
+::view-transition-new(root) { animation-name: ios-slide-in-right; }
+
+html[data-nav="back"]::view-transition-old(root) { animation-name: ios-slide-out-right; }
+html[data-nav="back"]::view-transition-new(root) { animation-name: ios-slide-in-left; }
+
+@keyframes ios-slide-in-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes ios-slide-out-left {
+  from { transform: translateX(0); opacity: 1; }
+  to   { transform: translateX(-25%); opacity: 0.55; }
+}
+@keyframes ios-slide-in-left {
+  from { transform: translateX(-25%); opacity: 0.55; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes ios-slide-out-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+/* Smooth round-timer fill — runs once for the whole round, paused on demand. */
+@keyframes round-fill {
+  from { height: 0%; }
+  to   { height: 100%; }
+}
+
+/* Reduced motion: drop view transitions, the press-scale feedback, and the
+   round-timer fill animation. Smooth scrolling falls back to the default. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  html { scroll-behavior: auto; }
+  .press-ios:active:not(:disabled),
+  .press-ios-soft:active:not(:disabled) { transform: none; }
+  [style*="round-fill"] { animation: none !important; }
+}

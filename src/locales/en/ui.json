@@ -1,0 +1,77 @@
+{
+  "common.back": "Back",
+
+  "home.title": "Imposter",
+  "home.subtitle": "One device. One secret word. Find the imposter.",
+  "home.start": "Play",
+  "home.settingsLink": "Settings",
+
+  "players.title": "Players",
+  "players.placeholder": "Player name",
+  "players.add": "Add",
+  "players.remove": "Remove",
+  "players.continue": "Continue",
+  "players.countSuffix": "{count} players",
+  "players.minHint": "Add at least {min} players.",
+
+  "categories.title": "Categories",
+  "categories.continue": "Play",
+  "categories.countSuffix": "{count} selected",
+
+  "settings.title": "Game settings",
+  "settings.start": "Start round",
+  "settings.imposters.title": "Imposters",
+  "settings.imposters.subtitle": "How many secret imposters there are.",
+  "settings.imposters.decrease": "One imposter less",
+  "settings.imposters.increase": "One imposter more",
+  "settings.time.title": "Round time",
+  "settings.time.subtitle": "How long each discussion round lasts.",
+  "settings.time.decrease": "Shorter",
+  "settings.time.increase": "Longer",
+  "settings.hints.title": "Hints for imposters",
+  "settings.hints.subtitle": "Should imposters get a vague related hint?",
+  "settings.hints.on": "On",
+  "settings.hints.off": "Off",
+  "settings.language.title": "Language",
+  "settings.language.subtitle": "Changes the UI and the word lists.",
+
+  "handoff.passTo": "Pass the phone to",
+  "handoff.tap": "Ready — show word",
+  "handoff.reveal.subtitle": "Keep your word secret from the others.",
+  "handoff.vote.subtitle": "Time to vote. Don't let anyone peek.",
+  "handoff.progress": "{current} of {total}",
+
+  "reveal.youAre": "You are",
+  "reveal.theWord": "The secret word",
+  "reveal.imposter": "IMPOSTER",
+  "reveal.hintLabel": "Hint",
+  "reveal.holdPrompt": "Hold to reveal",
+  "reveal.holdHint": "Release to hide it again.",
+  "reveal.continue": "Continue",
+
+  "play.category": "Category",
+  "play.instructions": "Take turns saying one word related to the secret. The imposter bluffs along.",
+  "play.skip": "Done — go to vote",
+  "play.toVote": "Time to vote",
+
+  "vote.youAre": "You are",
+  "vote.prompt": "Who do you think is the imposter?",
+  "vote.confirm": "Confirm vote",
+
+  "result.mostVoted": "Most votes",
+  "result.wasImposter": "Was an imposter!",
+  "result.wasInnocent": "Was NOT the imposter!",
+  "result.imposterWere": "The imposter(s) were: {names}",
+  "result.continue": "Continue",
+
+  "guess.youAre": "You're caught",
+  "guess.prompt": "Last chance: pick the correct secret word from the category to steal the win.",
+  "guess.confirm": "Confirm pick",
+
+  "roundEnd.crewWins": "The crew wins!",
+  "roundEnd.imposterWins": "The imposter wins!",
+  "roundEnd.theWord": "The secret word was",
+  "roundEnd.imposterWas": "Imposter(s): {names}",
+  "roundEnd.playAgain": "Play again",
+  "roundEnd.home": "Back to home"
+}
