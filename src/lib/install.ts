@@ -7,18 +7,24 @@ type BeforeInstallPromptEvent = Event & {
 
 type NavigatorIOS = Navigator & { standalone?: boolean }
 
-function detectStandalone(): boolean {
+export function detectStandalone(): boolean {
   if (typeof window === 'undefined') return false
   if (window.matchMedia?.('(display-mode: standalone)').matches) return true
   return (navigator as NavigatorIOS).standalone === true
 }
 
-function detectIOS(): boolean {
+export function detectIOS(): boolean {
   if (typeof navigator === 'undefined') return false
   // Modern iPadOS hides "iPad" in the UA string but reports MacIntel + touch.
   const isIPadModern =
     navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1
   return /iPad|iPhone|iPod/.test(navigator.userAgent) || isIPadModern
+}
+
+export function detectMobile(): boolean {
+  if (typeof navigator === 'undefined') return false
+  if (detectIOS()) return true
+  return /Android|Mobile/i.test(navigator.userAgent)
 }
 
 export type InstallState = {
@@ -61,9 +67,10 @@ export function useInstallPrompt(): InstallState {
     }
   }, [])
 
-  const isIOS = useMemo(detectIOS, [])
+  const isIOS = useMemo(() => detectIOS(), [])
+  const isMobile = useMemo(() => detectMobile(), [])
   const hasPromptEvent = event !== null
-  const canInstall = !installed && (hasPromptEvent || isIOS)
+  const canInstall = !installed && isMobile && (hasPromptEvent || isIOS)
 
   const promptInstall = useCallback(async () => {
     if (!event) return 'unavailable' as const

@@ -31,6 +31,8 @@ export function HoldToReveal({ prompt, children, onFullyRevealed }: Props) {
 
   const tick = () => {
     if (startedAt.current === null) return
+    // tick runs from requestAnimationFrame, not during render — performance.now is safe here.
+    // eslint-disable-next-line react-hooks/purity
     const elapsed = performance.now() - startedAt.current
     const p = Math.min(1, elapsed / HOLD_MS)
     setProgress(p)

@@ -20,6 +20,9 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let cancelled = false
+    // Reset bundle/error when locale changes so the UI shows the loading state
+    // until the new bundle resolves.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBundle(null)
     setLoadError(false)
     loadLocaleBundle(locale)
@@ -59,12 +62,14 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   return <LocaleCtx.Provider value={value}>{children}</LocaleCtx.Provider>
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useLocale() {
   const ctx = useContext(LocaleCtx)
   if (!ctx) throw new Error('LocaleProvider missing')
   return ctx
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useT() {
   const { bundle } = useLocale()
   return useCallback(

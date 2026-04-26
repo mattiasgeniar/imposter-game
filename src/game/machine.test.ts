@@ -42,6 +42,49 @@ function withPlayers(...names: string[]): GameState {
   return s
 }
 
+describe('initialState', () => {
+  it('starts on the home phase with empty progress state', () => {
+    const s = initialState()
+    expect(s.phase).toBe('home')
+    expect(s.cursor).toBe(0)
+    expect(s.round).toBeNull()
+    expect(s.resultMostVoted).toBeNull()
+    expect(s.winner).toBeNull()
+  })
+
+  it('hydrates players, categories, and settings from localStorage', () => {
+    localStorage.setItem('imposter:players', JSON.stringify(['Tuur', 'Floor']))
+    localStorage.setItem('imposter:categories', JSON.stringify(['party']))
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false }),
+    )
+    const s = initialState()
+    expect(s.players).toEqual(['Tuur', 'Floor'])
+    expect(s.selectedCategoryIds).toEqual(['party'])
+    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false })
+  })
+
+  it('clamps stored imposterCount that exceeds player count - 1', () => {
+    localStorage.setItem('imposter:players', JSON.stringify(['A', 'B', 'C']))
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 10, roundSeconds: 120, hintsEnabled: true }),
+    )
+    expect(initialState().settings.imposterCount).toBe(2)
+  })
+})
+
+describe('goto', () => {
+  it('changes the current phase without touching anything else', () => {
+    const s = withPlayers('A', 'B', 'C')
+    const next = reducer(s, { type: 'goto', phase: 'settings' })
+    expect(next.phase).toBe('settings')
+    expect(next.players).toEqual(s.players)
+    expect(next.cursor).toBe(s.cursor)
+  })
+})
+
 describe('addPlayer', () => {
   it('adds a trimmed name', () => {
     const s = reducer(initialState(), { type: 'addPlayer', name: '  Tuur  ' })
@@ -267,6 +310,23 @@ describe('imposterGuess', () => {
     const next = reducer(s, { type: 'imposterGuess', word: 'Bingo' })
     expect(next.winner).toBe('crew')
     expect(next.phase).toBe('roundEnd')
+  })
+})
+
+describe('null-round guards', () => {
+  it('advanceReveal is a no-op when no round is active', () => {
+    const s = withPlayers('A', 'B', 'C')
+    expect(reducer(s, { type: 'advanceReveal' })).toBe(s)
+  })
+
+  it('castVote is a no-op when no round is active', () => {
+    const s = withPlayers('A', 'B', 'C')
+    expect(reducer(s, { type: 'castVote', voter: 0, target: 1 })).toBe(s)
+  })
+
+  it('imposterGuess is a no-op when no round is active', () => {
+    const s = withPlayers('A', 'B', 'C')
+    expect(reducer(s, { type: 'imposterGuess', word: 'pizza' })).toBe(s)
   })
 })
 
