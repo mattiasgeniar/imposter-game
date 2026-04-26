@@ -1,0 +1,105 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+import {
+  DEFAULT_SETTINGS,
+  loadCategories,
+  loadLocale,
+  loadPlayers,
+  loadSettings,
+  saveCategories,
+  saveLocale,
+  savePlayers,
+  saveSettings,
+} from './persistence'
+
+beforeEach(() => {
+  localStorage.clear()
+})
+
+describe('loadPlayers', () => {
+  it('returns an empty array by default', () => {
+    expect(loadPlayers()).toEqual([])
+  })
+
+  it('round-trips a saved list', () => {
+    savePlayers(['Tuur', 'Floor'])
+    expect(loadPlayers()).toEqual(['Tuur', 'Floor'])
+  })
+
+  it('strips non-string entries', () => {
+    localStorage.setItem('imposter:players', JSON.stringify(['Tuur', 42, null, 'Floor']))
+    expect(loadPlayers()).toEqual(['Tuur', 'Floor'])
+  })
+
+  it('returns empty array on malformed JSON', () => {
+    localStorage.setItem('imposter:players', '{not json')
+    expect(loadPlayers()).toEqual([])
+  })
+})
+
+describe('loadCategories', () => {
+  it('filters out unknown category ids', () => {
+    saveCategories(['party', 'unknown', 'food'])
+    expect(loadCategories()).toEqual(['party', 'food'])
+  })
+
+  it('returns empty array on non-array storage value', () => {
+    localStorage.setItem('imposter:categories', JSON.stringify({ not: 'array' }))
+    expect(loadCategories()).toEqual([])
+  })
+})
+
+describe('loadSettings', () => {
+  it('returns defaults when nothing stored', () => {
+    expect(loadSettings()).toEqual(DEFAULT_SETTINGS)
+  })
+
+  it('round-trips valid settings', () => {
+    saveSettings({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false })
+    expect(loadSettings()).toEqual({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false })
+  })
+
+  it('clamps roundSeconds to the valid 30..600 range', () => {
+    saveSettings({ imposterCount: 1, roundSeconds: 9999, hintsEnabled: true })
+    expect(loadSettings().roundSeconds).toBe(600)
+
+    saveSettings({ imposterCount: 1, roundSeconds: -50, hintsEnabled: true })
+    expect(loadSettings().roundSeconds).toBe(30)
+  })
+
+  it('rejects non-finite numeric values and falls back to defaults', () => {
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: NaN, roundSeconds: 'oops', hintsEnabled: 'yes' }),
+    )
+    const s = loadSettings()
+    expect(s.imposterCount).toBe(DEFAULT_SETTINGS.imposterCount)
+    expect(s.roundSeconds).toBe(DEFAULT_SETTINGS.roundSeconds)
+    expect(s.hintsEnabled).toBe(DEFAULT_SETTINGS.hintsEnabled)
+  })
+
+  it('rounds fractional values', () => {
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 2.7, roundSeconds: 119.4, hintsEnabled: true }),
+    )
+    const s = loadSettings()
+    expect(s.imposterCount).toBe(3)
+    expect(s.roundSeconds).toBe(119)
+  })
+})
+
+describe('loadLocale', () => {
+  it('returns null when nothing stored', () => {
+    expect(loadLocale()).toBeNull()
+  })
+
+  it('round-trips a valid locale', () => {
+    saveLocale('en')
+    expect(loadLocale()).toBe('en')
+  })
+
+  it('returns null for unrecognised values', () => {
+    localStorage.setItem('imposter:locale', JSON.stringify('fr-FR'))
+    expect(loadLocale()).toBeNull()
+  })
+})
