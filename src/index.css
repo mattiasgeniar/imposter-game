@@ -107,6 +107,15 @@ html[data-nav="back"]::view-transition-new(root) { animation-name: ios-slide-in-
   to   { height: 100%; }
 }
 
+/* Install toast: subtle slide-up entrance from below the safe-area. */
+@keyframes install-toast-in {
+  from { transform: translateY(120%); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+.install-toast {
+  animation: install-toast-in 380ms var(--ios-ease) both;
+}
+
 /* Reduced motion: drop view transitions, the press-scale feedback, and the
    round-timer fill animation. Smooth scrolling falls back to the default. */
 @media (prefers-reduced-motion: reduce) {
@@ -118,4 +127,5 @@ html[data-nav="back"]::view-transition-new(root) { animation-name: ios-slide-in-
   .press-ios:active:not(:disabled),
   .press-ios-soft:active:not(:disabled) { transform: none; }
   [style*="round-fill"] { animation: none !important; }
+  .install-toast { animation: none; }
 }

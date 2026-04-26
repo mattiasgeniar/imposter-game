@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useReducer, useState } from 'react'
 import { LocaleProvider, useLocale } from './i18n/LocaleProvider'
 import { initialState, reducer } from './game/machine'
 import type { Action } from './game/machine'
@@ -8,7 +8,9 @@ import {
   saveSettings,
 } from './game/persistence'
 import { withTransition } from './lib/navigate'
+import { useInstallPrompt } from './lib/install'
 import { Button } from './components/Button'
+import { InstallToast } from './components/InstallToast'
 import { HomeScreen } from './screens/HomeScreen'
 import { PlayersScreen } from './screens/PlayersScreen'
 import { CategoriesScreen } from './screens/CategoriesScreen'
@@ -24,6 +26,8 @@ import { RoundEndScreen } from './screens/RoundEndScreen'
 function Game() {
   const [state, dispatch] = useReducer(reducer, undefined, initialState)
   const { bundle, loadError } = useLocale()
+  const install = useInstallPrompt()
+  const [showInstallToast, setShowInstallToast] = useState(true)
 
   useEffect(() => savePlayers(state.players), [state.players])
   useEffect(() => saveCategories(state.selectedCategoryIds), [state.selectedCategoryIds])
@@ -64,6 +68,18 @@ function Game() {
         <HomeScreen
           onStart={() => navigate({ type: 'goto', phase: 'players' })}
           onOpenSettings={() => navigate({ type: 'goto', phase: 'settings' })}
+          banner={
+            install.canInstall && showInstallToast ? (
+              <InstallToast
+                isIOS={install.isIOS}
+                onInstall={async () => {
+                  const outcome = await install.promptInstall()
+                  if (outcome !== 'unavailable') setShowInstallToast(false)
+                }}
+                onDismiss={() => setShowInstallToast(false)}
+              />
+            ) : undefined
+          }
         />
       )
 
@@ -94,6 +110,7 @@ function Game() {
           settings={state.settings}
           playerCount={state.players.length}
           categoryCount={state.selectedCategoryIds.length}
+          install={install}
           onChange={(s) => dispatch({ type: 'setSettings', settings: s })}
           onBack={() => navigate({ type: 'goto', phase: 'categories' }, 'back')}
           onStart={() => navigate({ type: 'startRound', words: bundle.words })}

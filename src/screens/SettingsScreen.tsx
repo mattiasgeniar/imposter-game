@@ -6,11 +6,13 @@ import { useLocale, useT } from '../i18n/LocaleProvider'
 import { AVAILABLE_LOCALES } from '../i18n/locales'
 import { formatTime } from '../game/format'
 import type { Settings } from '../game/types'
+import type { InstallState } from '../lib/install'
 
 type Props = {
   settings: Settings
   playerCount: number
   categoryCount: number
+  install: InstallState
   onChange: (s: Settings) => void
   onStart: () => void
   onBack: () => void
@@ -21,7 +23,7 @@ const TIME_MIN = 30
 const TIME_MAX = 600
 const MIN_PLAYERS = 3
 
-export function SettingsScreen({ settings, playerCount, categoryCount, onChange, onStart, onBack }: Props) {
+export function SettingsScreen({ settings, playerCount, categoryCount, install, onChange, onStart, onBack }: Props) {
   const t = useT()
   const { locale, setLocale } = useLocale()
   const maxImposters = Math.max(1, playerCount - 1)
@@ -76,9 +78,32 @@ export function SettingsScreen({ settings, playerCount, categoryCount, onChange,
             onChange={setLocale}
           />
         </Card>
+
+        <Card title={t('settings.install.title')} subtitle={t('settings.install.subtitle')}>
+          <InstallSection install={install} />
+        </Card>
       </div>
     </Screen>
   )
+}
+
+function InstallSection({ install }: { install: InstallState }) {
+  const t = useT()
+
+  if (install.installed) {
+    return <p className="text-sm text-success">✓ {t('settings.install.alreadyInstalled')}</p>
+  }
+  if (install.isIOS) {
+    return <p className="text-sm text-white/80 leading-snug">{t('settings.install.iosInstructions')}</p>
+  }
+  if (install.hasPromptEvent) {
+    return (
+      <Button size="md" onClick={() => install.promptInstall()}>
+        {t('settings.install.button')}
+      </Button>
+    )
+  }
+  return <p className="text-sm text-white/60 leading-snug">{t('settings.install.unavailable')}</p>
 }
 
 function Card({ title, subtitle, children }: { title: string; subtitle: string; children: React.ReactNode }) {

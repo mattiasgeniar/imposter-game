@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Screen } from '../components/Screen'
 import { Button } from '../components/Button'
 import { useT } from '../i18n/LocaleProvider'
@@ -5,9 +6,11 @@ import { useT } from '../i18n/LocaleProvider'
 type Props = {
   onStart: () => void
   onOpenSettings: () => void
+  /** Optional banner rendered above the Play button (e.g. install prompt). */
+  banner?: ReactNode
 }
 
-export function HomeScreen({ onStart, onOpenSettings }: Props) {
+export function HomeScreen({ onStart, onOpenSettings, banner }: Props) {
   const t = useT()
   return (
     <Screen>
@@ -17,6 +20,7 @@ export function HomeScreen({ onStart, onOpenSettings }: Props) {
         <p className="text-white/70 max-w-xs">{t('home.subtitle')}</p>
       </div>
       <div className="flex flex-col gap-3 pb-safe">
+        {banner}
         <Button onClick={onStart}>{t('home.start')}</Button>
         <Button variant="ghost" onClick={onOpenSettings}>{t('home.settingsLink')}</Button>
       </div>
