@@ -53,6 +53,7 @@
   "settings.credits.builtBy": "Gemaakt door Mattias Geniar — open source op",
   "settings.credits.sourceLink": "GitHub",
   "settings.credits.thanks": "Met dank aan Floor, Tuur en Marijke voor de speelavonden die deze app inspireerden.",
+  "settings.credits.icon": "Icoon van Twemoji (CC-BY 4.0).",
 
   "install.toast.title": "Voeg toe aan je startscherm",
   "install.toast.subtitle": "Speel offline, opent als app.",
