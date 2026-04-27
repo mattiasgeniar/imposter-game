@@ -16,6 +16,7 @@ type Action =
   | { type: 'castGroupVote'; target: number }
   | { type: 'imposterGuess'; word: string }
   | { type: 'reset' }
+  | { type: 'abortRound' }
 
 export type { Action }
 
@@ -183,6 +184,11 @@ export function reducer(state: GameState, action: Action): GameState {
 
     case 'reset':
       return { ...state, phase: 'home', round: null, resultMostVoted: null, winner: null, cursor: 0 }
+
+    case 'abortRound':
+      // Bail out mid-round (typically from the play screen). Discard the round
+      // and drop the host on the settings screen so they can adjust and start over.
+      return { ...state, phase: 'settings', round: null, resultMostVoted: null, winner: null, cursor: 0 }
 
     default:
       return state

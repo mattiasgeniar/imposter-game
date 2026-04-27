@@ -173,6 +173,7 @@ function Game() {
           totalSeconds={state.settings.roundSeconds}
           categoryId={state.round.categoryId}
           onFinish={() => navigate({ type: 'finishPlay' })}
+          onAbort={() => navigate({ type: 'abortRound' }, 'back')}
         />
       )
     }

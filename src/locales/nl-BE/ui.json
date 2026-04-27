@@ -77,6 +77,10 @@
   "play.instructions": "Iedereen om beurt: zeg één woord dat met het geheim te maken heeft. De imposter bluft mee.",
   "play.skip": "Klaar — naar stemmen",
   "play.toVote": "Tijd om te stemmen",
+  "play.timeUp": "Tijd om!",
+  "play.timeUpSubtitle": "De discussie is gedaan — tijd om te stemmen.",
+  "play.startVote": "Start de stemming",
+  "play.exit": "Stop ronde",
 
   "vote.youAre": "Je bent",
   "vote.prompt": "Wie denk je dat de imposter is?",

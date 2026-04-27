@@ -420,6 +420,21 @@ describe('null-round guards', () => {
   })
 })
 
+describe('abortRound', () => {
+  it('discards the in-progress round and lands on settings', () => {
+    const s = withRound(withPlayers('A', 'B', 'C'))
+    const dirty: GameState = { ...s, phase: 'play', resultMostVoted: [0], winner: 'imposter' }
+    const next = reducer(dirty, { type: 'abortRound' })
+    expect(next.phase).toBe('settings')
+    expect(next.round).toBeNull()
+    expect(next.resultMostVoted).toBeNull()
+    expect(next.winner).toBeNull()
+    expect(next.cursor).toBe(0)
+    // Player list and settings survive — only the round is cancelled.
+    expect(next.players).toEqual(['A', 'B', 'C'])
+  })
+})
+
 describe('reset', () => {
   it('returns to the home phase and clears in-progress round state', () => {
     const s = withRound(withPlayers('A', 'B', 'C'), { word: 'Pizza' })

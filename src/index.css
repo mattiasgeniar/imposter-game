@@ -101,10 +101,30 @@ html[data-nav="back"]::view-transition-new(root) { animation-name: ios-slide-in-
   to   { transform: translateX(100%); }
 }
 
-/* Smooth round-timer fill — runs once for the whole round, paused on demand. */
-@keyframes round-fill {
-  from { height: 0%; }
-  to   { height: 100%; }
+/* Round-timer wave fill — two sine-wave SVG layers drift across the surface
+   while the parent container's height ticks up to fake a glass filling.
+   Each wave SVG is twice the container width, sliding by exactly -50% so the
+   loop is seamless. */
+@keyframes play-wave-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.play-wave {
+  position: absolute;
+  bottom: auto;
+  left: 0;
+  top: 0;
+  width: 200%;
+  height: 1.5rem;
+  margin-top: -1px; /* seal hairline gap with the body fill below */
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.play-wave--back {
+  animation: play-wave-drift 7s linear infinite reverse;
+}
+.play-wave--front {
+  animation: play-wave-drift 4s linear infinite;
 }
 
 /* Install toast: subtle slide-up entrance from below the safe-area. */
@@ -126,6 +146,6 @@ html[data-nav="back"]::view-transition-new(root) { animation-name: ios-slide-in-
   html { scroll-behavior: auto; }
   .press-ios:active:not(:disabled),
   .press-ios-soft:active:not(:disabled) { transform: none; }
-  [style*="round-fill"] { animation: none !important; }
+  .play-wave { animation: none !important; }
   .install-toast { animation: none; }
 }
