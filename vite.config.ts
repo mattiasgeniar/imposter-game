@@ -18,6 +18,8 @@ function gitInfo() {
 
 const { commit: APP_COMMIT, date: APP_COMMIT_DATE } = gitInfo()
 
+const v = (file: string) => `${file}?v=${APP_COMMIT}`
+
 export default defineConfig({
   define: {
     __APP_COMMIT__: JSON.stringify(APP_COMMIT),
@@ -30,6 +32,15 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    {
+      name: 'imposter-html-cache-bust',
+      transformIndexHtml(html) {
+        return html.replace(
+          /(href=")(\/?(?:favicon-32|icon-192|apple-touch-icon)\.png)(")/g,
+          `$1$2?v=${APP_COMMIT}$3`,
+        )
+      },
+    },
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon-32.png', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png', 'icon-maskable.png'],
@@ -45,9 +56,9 @@ export default defineConfig({
         scope: '/',
         lang: 'nl-BE',
         icons: [
-          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-maskable.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: v('icon-192.png'), sizes: '192x192', type: 'image/png' },
+          { src: v('icon-512.png'), sizes: '512x512', type: 'image/png' },
+          { src: v('icon-maskable.png'), sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: {
