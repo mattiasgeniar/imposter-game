@@ -38,4 +38,4 @@ To add a new language, drop a folder next to `nl-BE/` and `en/` mirroring its st
 
 ## Licence
 
-MIT for the code in this repo. The theatre-masks icon is from [Microsoft Fluent UI Emoji](https://github.com/microsoft/fluentui-emoji) (MIT) — see [`LICENSE-FLUENT-EMOJI.md`](LICENSE-FLUENT-EMOJI.md).
+MIT. The theatre-masks app icon is a custom AI-generated illustration; the source PNG and regeneration steps live in [`design/`](design/).
