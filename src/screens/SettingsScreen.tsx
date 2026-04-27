@@ -8,6 +8,7 @@ import type { Locale } from '../game/types'
 import { formatTime } from '../game/format'
 import type { Settings } from '../game/types'
 import type { InstallState } from '../lib/install'
+import { forceRefresh } from '../lib/force-refresh'
 
 type Props = {
   settings: Settings
@@ -124,13 +125,13 @@ export function SettingsScreen({
           <InstallSection install={install} />
         </Card>
 
-        <Credits />
+        <Credits installed={install.installed} />
       </div>
     </Screen>
   )
 }
 
-function Credits() {
+function Credits({ installed }: { installed: boolean }) {
   const t = useT()
   const { locale } = useLocale()
   return (
@@ -153,6 +154,15 @@ function Credits() {
       <p className="text-xs text-white/30 leading-snug font-mono">
         {__APP_COMMIT__} · {formatBuildDate(__APP_COMMIT_DATE__, locale)}
       </p>
+      {installed && (
+        <button
+          type="button"
+          onClick={forceRefresh}
+          className="text-xs text-white/40 underline underline-offset-2 active:text-white/70"
+        >
+          {t('settings.credits.forceRefresh')}
+        </button>
+      )}
     </div>
   )
 }

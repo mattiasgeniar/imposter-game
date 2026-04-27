@@ -53,6 +53,7 @@
   "settings.credits.builtBy": "Built by Mattias Geniar — open source on",
   "settings.credits.sourceLink": "GitHub",
   "settings.credits.thanks": "Thanks to Floor, Tuur and Marijke for the games that inspired this build.",
+  "settings.credits.forceRefresh": "Force refresh",
 
   "install.toast.title": "Add to your home screen",
   "install.toast.subtitle": "Play offline, opens like an app.",
