@@ -16,9 +16,7 @@ export function Screen({ children, footer, className = '' }: Props) {
         {children}
       </div>
       {footer && (
-        <div className="bg-surface border-t border-line pb-safe">
-          <div className="w-full max-w-md mx-auto px-4 py-3">{footer}</div>
-        </div>
+        <div className="w-full max-w-md mx-auto px-4 pt-3 pb-safe">{footer}</div>
       )}
     </div>
   )
