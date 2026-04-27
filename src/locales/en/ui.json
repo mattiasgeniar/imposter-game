@@ -77,6 +77,10 @@
   "play.instructions": "Take turns saying one word related to the secret. The imposter bluffs along.",
   "play.skip": "Done — go to vote",
   "play.toVote": "Time to vote",
+  "play.timeUp": "Time's up!",
+  "play.timeUpSubtitle": "Discussion's done — head to the vote.",
+  "play.startVote": "Start the vote",
+  "play.exit": "Exit round",
 
   "vote.youAre": "You are",
   "vote.prompt": "Who do you think is the imposter?",

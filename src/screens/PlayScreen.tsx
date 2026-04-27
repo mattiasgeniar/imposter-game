@@ -8,6 +8,7 @@ type Props = {
   totalSeconds: number
   categoryId: string
   onFinish: () => void
+  onAbort: () => void
 }
 
 type WakeLockSentinel = {
@@ -20,28 +21,28 @@ type NavigatorWithWakeLock = Navigator & {
   wakeLock?: { request: (type: 'screen') => Promise<WakeLockSentinel> }
 }
 
-export function PlayScreen({ totalSeconds, categoryId, onFinish }: Props) {
+export function PlayScreen({ totalSeconds, categoryId, onFinish, onAbort }: Props) {
   const t = useT()
   const { bundle } = useLocale()
   const meta = bundle?.categories[categoryId]
   const [remaining, setRemaining] = useState(totalSeconds)
 
-  // Tick every second for the digit display. The visual fill is driven by a
-  // CSS animation (see .timer-fill below) so it stays buttery-smooth at 60fps
-  // independent of the React tick.
+  // Tick every 250ms so the digit display and wave-fill height stay in sync
+  // even when the OS throttles us. The visible wave wobble is a separate CSS
+  // animation that runs continuously regardless of React rerenders.
   useEffect(() => {
     let stopped = false
     const startedAt = performance.now()
     const id = window.setInterval(() => {
       if (stopped) return
       const elapsed = (performance.now() - startedAt) / 1000
-      const left = Math.max(0, Math.ceil(totalSeconds - elapsed))
+      const left = Math.max(0, totalSeconds - elapsed)
       setRemaining(left)
       if (left <= 0) {
         stopped = true
         clearInterval(id)
       }
-    }, 1000)
+    }, 250)
     return () => { stopped = true; clearInterval(id) }
   }, [totalSeconds])
 
@@ -98,25 +99,41 @@ export function PlayScreen({ totalSeconds, categoryId, onFinish }: Props) {
 
   const expired = remaining <= 0
 
+  if (expired) {
+    return (
+      <Screen footer={<Button onClick={onFinish}>{t('play.startVote')}</Button>}>
+        <div className="flex-1 flex flex-col items-center justify-center text-center gap-4 px-4">
+          <div className="text-7xl" aria-hidden>⏰</div>
+          <h1 className="text-5xl font-extrabold tracking-tight">{t('play.timeUp')}</h1>
+          <p className="text-white/70 max-w-xs">{t('play.timeUpSubtitle')}</p>
+        </div>
+      </Screen>
+    )
+  }
+
+  // Fill rises from 0% (full screen) to 100% (touching the top) as the round runs.
+  const filledPercent = Math.min(100, Math.max(0, ((totalSeconds - remaining) / totalSeconds) * 100))
+
   return (
     <Screen
       footer={
-        <Button onClick={onFinish} variant={expired ? 'primary' : 'secondary'}>
-          {expired ? t('play.toVote') : t('play.skip')}
+        <Button onClick={onFinish} variant="secondary">
+          {t('play.skip')}
         </Button>
       }
     >
-      {/* Fill is a fire-and-forget CSS animation tied to wall-clock duration —
-          stays in sync with the React timer because both compute from the same
-          mount time, and the element unmounts when the phase advances. */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute inset-x-0 bottom-0 bg-accent/30 will-change-[height]"
-          style={{ animation: `round-fill ${totalSeconds}s linear forwards` }}
-        />
-      </div>
+      <WaveFill percent={filledPercent} />
 
-      <div className="relative flex-1 flex flex-col items-center justify-center text-center gap-3">
+      <button
+        type="button"
+        onClick={onAbort}
+        aria-label={t('play.exit')}
+        className="absolute top-3 right-3 z-20 h-10 w-10 rounded-full bg-card/80 backdrop-blur border border-line text-white/80 active:bg-line text-xl press-ios-soft flex items-center justify-center"
+      >
+        ✕
+      </button>
+
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center gap-3">
         <div className="text-white/60 uppercase tracking-widest text-xs">
           {t('play.category')}
         </div>
@@ -125,12 +142,57 @@ export function PlayScreen({ totalSeconds, categoryId, onFinish }: Props) {
           <span className="text-2xl font-bold">{meta?.name ?? categoryId}</span>
         </div>
         <div className="mt-8 text-7xl font-extrabold tabular-nums tracking-tight">
-          {formatTime(remaining)}
+          {formatTime(Math.ceil(remaining))}
         </div>
         <div className="text-white/60 mt-3 max-w-xs leading-snug">
           {t('play.instructions')}
         </div>
       </div>
     </Screen>
+  )
+}
+
+/**
+ * A glass-of-water countdown: a coloured layer rises from the bottom, with two
+ * sine-wave SVG paths drifting horizontally in opposite directions for a
+ * surface that gently wobbles. The fill height is React-driven (smoothed by a
+ * CSS transition); the wave drift is a CSS keyframe loop so it runs at 60fps
+ * independent of the React tick.
+ */
+function WaveFill({ percent }: { percent: number }) {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+      <div
+        className="absolute inset-x-0 bottom-0 transition-[height] duration-300 ease-linear"
+        style={{ height: `${percent}%` }}
+      >
+        {/* Back wave: slower, more transparent, sits a hair lower */}
+        <svg
+          className="play-wave play-wave--back"
+          viewBox="0 0 200 20"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0 12 Q 25 4, 50 12 T 100 12 T 150 12 T 200 12 V 20 H 0 Z"
+            fill="#ff5577"
+            fillOpacity="0.25"
+          />
+        </svg>
+        {/* Front wave: faster, denser, slight phase offset */}
+        <svg
+          className="play-wave play-wave--front"
+          viewBox="0 0 200 20"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0 10 Q 25 18, 50 10 T 100 10 T 150 10 T 200 10 V 20 H 0 Z"
+            fill="#ff5577"
+            fillOpacity="0.45"
+          />
+        </svg>
+        {/* Body of the fill below the waves */}
+        <div className="absolute inset-x-0 top-5 bottom-0 bg-accent/30" />
+      </div>
+    </div>
   )
 }
