@@ -148,6 +148,9 @@ function Credits() {
       <p className="text-xs text-white/40 leading-snug">
         {t('settings.credits.thanks')}
       </p>
+      <p className="text-xs text-white/30 leading-snug">
+        {t('settings.credits.icon')}
+      </p>
     </div>
   )
 }
