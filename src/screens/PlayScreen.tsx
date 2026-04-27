@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Screen } from '../components/Screen'
 import { Button } from '../components/Button'
+import { WaveFill } from '../components/WaveFill'
 import { useLocale, useT } from '../i18n/LocaleProvider'
 import { formatTime } from '../game/format'
 
@@ -114,14 +115,11 @@ export function PlayScreen({ totalSeconds, categoryId, onFinish, onAbort }: Prop
   // Fill rises from 0% (full screen) to 100% (touching the top) as the round runs.
   const filledPercent = Math.min(100, Math.max(0, ((totalSeconds - remaining) / totalSeconds) * 100))
 
+  // While the timer is running there is no "skip to vote" button — to prevent
+  // accidental taps that throw the round away. The only escape hatch is the
+  // top-right ✕ which routes back to settings.
   return (
-    <Screen
-      footer={
-        <Button onClick={onFinish} variant="secondary">
-          {t('play.skip')}
-        </Button>
-      }
-    >
+    <Screen>
       <WaveFill percent={filledPercent} />
 
       <button
@@ -152,47 +150,3 @@ export function PlayScreen({ totalSeconds, categoryId, onFinish, onAbort }: Prop
   )
 }
 
-/**
- * A glass-of-water countdown: a coloured layer rises from the bottom, with two
- * sine-wave SVG paths drifting horizontally in opposite directions for a
- * surface that gently wobbles. The fill height is React-driven (smoothed by a
- * CSS transition); the wave drift is a CSS keyframe loop so it runs at 60fps
- * independent of the React tick.
- */
-function WaveFill({ percent }: { percent: number }) {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-      <div
-        className="absolute inset-x-0 bottom-0 transition-[height] duration-300 ease-linear"
-        style={{ height: `${percent}%` }}
-      >
-        {/* Back wave: slower, more transparent, sits a hair lower */}
-        <svg
-          className="play-wave play-wave--back"
-          viewBox="0 0 200 20"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 12 Q 25 4, 50 12 T 100 12 T 150 12 T 200 12 V 20 H 0 Z"
-            fill="#ff5577"
-            fillOpacity="0.25"
-          />
-        </svg>
-        {/* Front wave: faster, denser, slight phase offset */}
-        <svg
-          className="play-wave play-wave--front"
-          viewBox="0 0 200 20"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 10 Q 25 18, 50 10 T 100 10 T 150 10 T 200 10 V 20 H 0 Z"
-            fill="#ff5577"
-            fillOpacity="0.45"
-          />
-        </svg>
-        {/* Body of the fill below the waves */}
-        <div className="absolute inset-x-0 top-5 bottom-0 bg-accent/30" />
-      </div>
-    </div>
-  )
-}

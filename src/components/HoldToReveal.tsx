@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { WaveFill } from './WaveFill'
 
 const HOLD_MS = 800
 
@@ -65,10 +66,7 @@ export function HoldToReveal({ prompt, children, onFullyRevealed }: Props) {
       onPointerLeave={onUp}
       className="relative flex-1 rounded-3xl bg-card border border-line overflow-hidden flex items-center justify-center select-none touch-none"
     >
-      <div
-        className="absolute inset-0 bg-accent/20 origin-bottom transition-transform duration-75 ease-out"
-        style={{ transform: `scaleY(${progress})` }}
-      />
+      <WaveFill percent={progress * 100} transitionMs={60} />
       {revealed ? (
         <div className="relative z-10 w-full px-6 text-center">{children}</div>
       ) : (
