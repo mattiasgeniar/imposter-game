@@ -38,4 +38,4 @@ To add a new language, drop a folder next to `nl-BE/` and `en/` mirroring its st
 
 ## Licence
 
-MIT for the code in this repo. The face-with-monocle icon is derived from [Twemoji](https://github.com/jdecked/twemoji) (CC-BY 4.0) — see [`LICENSE-TWEMOJI.md`](LICENSE-TWEMOJI.md).
+MIT. The theatre-masks app icon is a custom AI-generated illustration; the source PNG and regeneration steps live in [`design/`](design/).

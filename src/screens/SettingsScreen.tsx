@@ -150,9 +150,6 @@ function Credits() {
       <p className="text-xs text-white/40 leading-snug">
         {t('settings.credits.thanks')}
       </p>
-      <p className="text-xs text-white/30 leading-snug">
-        {t('settings.credits.icon')}
-      </p>
       <p className="text-xs text-white/30 leading-snug font-mono">
         {__APP_COMMIT__} · {formatBuildDate(__APP_COMMIT_DATE__, locale)}
       </p>
