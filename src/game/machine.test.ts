@@ -70,7 +70,7 @@ describe('initialState', () => {
     const s = initialState()
     expect(s.players).toEqual(['Tuur', 'Floor'])
     expect(s.selectedCategoryIds).toEqual(['party'])
-    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false })
+    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false, voteMode: 'individual' })
   })
 
   it('clamps stored imposterCount that exceeds player count - 1', () => {
@@ -256,11 +256,48 @@ describe('advanceReveal', () => {
 })
 
 describe('finishPlay', () => {
-  it('moves to voteHandoff with cursor 0', () => {
+  it('moves to voteHandoff with cursor 0 in individual mode', () => {
     const s = withPlayers('A', 'B', 'C')
     const next = reducer({ ...s, phase: 'play' }, { type: 'finishPlay' })
     expect(next.phase).toBe('voteHandoff')
     expect(next.cursor).toBe(0)
+  })
+
+  it('moves straight to vote (no handoffs) in group mode', () => {
+    const s = withPlayers('A', 'B', 'C')
+    const groupState = { ...s, phase: 'play' as const, settings: { ...s.settings, voteMode: 'group' as const } }
+    const next = reducer(groupState, { type: 'finishPlay' })
+    expect(next.phase).toBe('vote')
+  })
+})
+
+describe('castGroupVote', () => {
+  it('declares imposter winner when group picks an innocent', () => {
+    // imposter is at index 1. Group picks index 0 (innocent).
+    const s = withRound(withPlayers('A', 'B', 'C'))
+    const next = reducer(s, { type: 'castGroupVote', target: 0 })
+    expect(next.phase).toBe('result')
+    expect(next.resultMostVoted).toEqual([0])
+    expect(next.winner).toBe('imposter')
+  })
+
+  it('leaves winner null when group catches the imposter (steal pending)', () => {
+    const s = withRound(withPlayers('A', 'B', 'C'))
+    const next = reducer(s, { type: 'castGroupVote', target: 1 })
+    expect(next.phase).toBe('result')
+    expect(next.resultMostVoted).toEqual([1])
+    expect(next.winner).toBeNull()
+  })
+
+  it('rejects out-of-range targets', () => {
+    const s = withRound(withPlayers('A', 'B', 'C'))
+    expect(reducer(s, { type: 'castGroupVote', target: -1 })).toBe(s)
+    expect(reducer(s, { type: 'castGroupVote', target: 99 })).toBe(s)
+  })
+
+  it('is a no-op when no round is active', () => {
+    const s = withPlayers('A', 'B', 'C')
+    expect(reducer(s, { type: 'castGroupVote', target: 0 })).toBe(s)
   })
 })
 

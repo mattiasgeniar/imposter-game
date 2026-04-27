@@ -98,6 +98,18 @@ export function SettingsScreen({
           />
         </Card>
 
+        <Card title={t('settings.voteMode.title')} subtitle={t('settings.voteMode.subtitle')}>
+          <Segmented
+            label={t('settings.voteMode.title')}
+            value={settings.voteMode}
+            options={[
+              { value: 'individual', label: t('settings.voteMode.individual') },
+              { value: 'group', label: t('settings.voteMode.group') },
+            ]}
+            onChange={(v) => onChange({ ...settings, voteMode: v })}
+          />
+        </Card>
+
         <Card title={t('settings.language.title')} subtitle={t('settings.language.subtitle')}>
           <Segmented
             label={t('settings.language.title')}

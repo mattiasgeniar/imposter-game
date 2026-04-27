@@ -57,16 +57,34 @@ describe('loadSettings', () => {
   })
 
   it('round-trips valid settings', () => {
-    saveSettings({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false })
-    expect(loadSettings()).toEqual({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false })
+    saveSettings({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false, voteMode: 'group' })
+    expect(loadSettings()).toEqual({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false, voteMode: 'group' })
   })
 
   it('clamps roundSeconds to the valid 30..600 range', () => {
-    saveSettings({ imposterCount: 1, roundSeconds: 9999, hintsEnabled: true })
+    saveSettings({ imposterCount: 1, roundSeconds: 9999, hintsEnabled: true, voteMode: 'individual' })
     expect(loadSettings().roundSeconds).toBe(600)
 
-    saveSettings({ imposterCount: 1, roundSeconds: -50, hintsEnabled: true })
+    saveSettings({ imposterCount: 1, roundSeconds: -50, hintsEnabled: true, voteMode: 'individual' })
     expect(loadSettings().roundSeconds).toBe(30)
+  })
+
+  it('falls back to individual when voteMode is missing or invalid', () => {
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'huh' }),
+    )
+    expect(loadSettings().voteMode).toBe('individual')
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true }),
+    )
+    expect(loadSettings().voteMode).toBe('individual')
+  })
+
+  it('round-trips a group voteMode', () => {
+    saveSettings({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'group' })
+    expect(loadSettings().voteMode).toBe('group')
   })
 
   it('rejects non-finite numeric values and falls back to defaults', () => {

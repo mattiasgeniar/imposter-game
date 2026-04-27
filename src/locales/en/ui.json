@@ -38,6 +38,10 @@
   "settings.hints.subtitle": "Should imposters get a vague related hint?",
   "settings.hints.on": "On",
   "settings.hints.off": "Off",
+  "settings.voteMode.title": "Voting style",
+  "settings.voteMode.subtitle": "How the group decides who the imposter is.",
+  "settings.voteMode.individual": "Everyone votes",
+  "settings.voteMode.group": "Group decision",
   "settings.language.title": "Language",
   "settings.language.subtitle": "Changes the UI and the word lists.",
   "settings.install.title": "Install as app",
@@ -77,6 +81,10 @@
   "vote.youAre": "You are",
   "vote.prompt": "Who do you think is the imposter?",
   "vote.confirm": "Confirm vote",
+
+  "groupVote.title": "Group decision",
+  "groupVote.prompt": "Discuss together — then pick the player you think is the imposter.",
+  "groupVote.confirm": "Lock in the choice",
 
   "result.mostVoted": "Most votes",
   "result.wasImposter": "Was an imposter!",

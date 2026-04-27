@@ -38,6 +38,10 @@
   "settings.hints.subtitle": "Krijgt de imposter een verwante hint over het woord?",
   "settings.hints.on": "Aan",
   "settings.hints.off": "Uit",
+  "settings.voteMode.title": "Stemwijze",
+  "settings.voteMode.subtitle": "Hoe de groep beslist wie de imposter is.",
+  "settings.voteMode.individual": "Iedereen stemt",
+  "settings.voteMode.group": "Groepsbeslissing",
   "settings.language.title": "Taal",
   "settings.language.subtitle": "Verandert de UI en de woordenlijsten.",
   "settings.install.title": "Installeer als app",
@@ -77,6 +81,10 @@
   "vote.youAre": "Je bent",
   "vote.prompt": "Wie denk je dat de imposter is?",
   "vote.confirm": "Bevestig stem",
+
+  "groupVote.title": "Groepsbeslissing",
+  "groupVote.prompt": "Bespreek samen — kies dan de speler waarvan jullie denken dat het de imposter is.",
+  "groupVote.confirm": "Bevestig keuze",
 
   "result.mostVoted": "Meeste stemmen",
   "result.wasImposter": "Was een imposter!",

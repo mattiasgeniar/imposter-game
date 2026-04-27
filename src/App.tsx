@@ -19,6 +19,7 @@ import { HandoffScreen } from './screens/HandoffScreen'
 import { RevealScreen } from './screens/RevealScreen'
 import { PlayScreen } from './screens/PlayScreen'
 import { VoteScreen } from './screens/VoteScreen'
+import { GroupVoteScreen } from './screens/GroupVoteScreen'
 import { ResultScreen } from './screens/ResultScreen'
 import { ImposterGuessScreen } from './screens/ImposterGuessScreen'
 import { RoundEndScreen } from './screens/RoundEndScreen'
@@ -192,6 +193,14 @@ function Game() {
 
     case 'vote': {
       if (!state.round) return null
+      if (state.settings.voteMode === 'group') {
+        return (
+          <GroupVoteScreen
+            players={state.players}
+            onConfirm={(target) => navigate({ type: 'castGroupVote', target })}
+          />
+        )
+      }
       const i = state.cursor
       const candidates = state.round.tieRevoteAmong ?? state.players.map((_, idx) => idx)
       return (
