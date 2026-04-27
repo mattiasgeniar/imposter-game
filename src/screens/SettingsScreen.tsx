@@ -4,6 +4,7 @@ import { ScreenHeader } from '../components/ScreenHeader'
 import { Stepper } from '../components/Stepper'
 import { useLocale, useT } from '../i18n/LocaleProvider'
 import { AVAILABLE_LOCALES } from '../i18n/locales'
+import type { Locale } from '../game/types'
 import { formatTime } from '../game/format'
 import type { Settings } from '../game/types'
 import type { InstallState } from '../lib/install'
@@ -131,6 +132,7 @@ export function SettingsScreen({
 
 function Credits() {
   const t = useT()
+  const { locale } = useLocale()
   return (
     <div className="pt-2 pb-1 text-center space-y-1.5">
       <p className="text-sm text-white/60 leading-snug">
@@ -151,8 +153,17 @@ function Credits() {
       <p className="text-xs text-white/30 leading-snug">
         {t('settings.credits.icon')}
       </p>
+      <p className="text-xs text-white/30 leading-snug font-mono">
+        {__APP_COMMIT__} · {formatBuildDate(__APP_COMMIT_DATE__, locale)}
+      </p>
     </div>
   )
+}
+
+function formatBuildDate(iso: string, locale: Locale): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return iso
+  return d.toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' })
 }
 
 function InstallSection({ install }: { install: InstallState }) {
