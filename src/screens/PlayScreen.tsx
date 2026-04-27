@@ -123,14 +123,16 @@ export function PlayScreen({ totalSeconds, categoryId, onFinish, onAbort }: Prop
     <Screen>
       <WaveFill percent={filledPercent} />
 
-      <button
-        type="button"
-        onClick={() => setConfirmingExit(true)}
-        aria-label={t('play.exit')}
-        className="absolute top-3 right-3 z-20 h-10 w-10 rounded-full bg-card/80 backdrop-blur border border-line text-white/80 active:bg-line text-xl press-ios-soft flex items-center justify-center"
-      >
-        ✕
-      </button>
+      <div className="absolute top-0 right-0 z-20 pt-safe pr-safe">
+        <button
+          type="button"
+          onClick={() => setConfirmingExit(true)}
+          aria-label={t('play.exit')}
+          className="h-10 w-10 rounded-full bg-card/80 backdrop-blur border border-line text-white/80 active:bg-line text-xl press-ios-soft flex items-center justify-center"
+        >
+          ✕
+        </button>
+      </div>
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center gap-3">
         <div className="text-white/60 uppercase tracking-widest text-xs">
