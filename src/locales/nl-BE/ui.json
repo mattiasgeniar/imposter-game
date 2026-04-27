@@ -11,8 +11,10 @@
   "players.add": "Voeg toe",
   "players.remove": "Verwijder",
   "players.continue": "Doorgaan",
+  "players.done": "Bewaar",
   "players.countSuffix": "{count} spelers",
   "players.minHint": "Voeg minstens {min} spelers toe.",
+  "players.staleHint": "Laatst gespeeld op {date}. Bevestig of pas de lijst aan voor je verder gaat.",
 
   "categories.title": "Categorieën",
   "categories.continue": "Spelen",
@@ -20,6 +22,10 @@
 
   "settings.title": "Spelinstellingen",
   "settings.start": "Start ronde",
+  "settings.players.title": "Spelers",
+  "settings.players.subtitle": "Pas de namen aan die deze ronde meespelen.",
+  "settings.players.edit": "Bewerk",
+  "settings.players.empty": "Nog geen spelers",
   "settings.imposters.title": "Imposters",
   "settings.imposters.subtitle": "Hoeveel geheime imposters er zijn.",
   "settings.imposters.decrease": "Eén imposter minder",

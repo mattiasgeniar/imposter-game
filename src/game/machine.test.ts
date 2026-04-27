@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { initialState, reducer } from './machine'
+import { arePlayersStale, initialState, reducer } from './machine'
+import { todayISO } from './persistence'
 import type { GameState, Round } from './types'
 
 const WORDS = {
@@ -50,6 +51,13 @@ describe('initialState', () => {
     expect(s.round).toBeNull()
     expect(s.resultMostVoted).toBeNull()
     expect(s.winner).toBeNull()
+    expect(s.lastPlayed).toBeNull()
+    expect(s.playersOrigin).toBe('home')
+  })
+
+  it('hydrates lastPlayed from storage', () => {
+    localStorage.setItem('imposter:lastPlayed', JSON.stringify('2026-04-26'))
+    expect(initialState().lastPlayed).toBe('2026-04-26')
   })
 
   it('hydrates players, categories, and settings from localStorage', () => {
@@ -82,6 +90,41 @@ describe('goto', () => {
     expect(next.phase).toBe('settings')
     expect(next.players).toEqual(s.players)
     expect(next.cursor).toBe(s.cursor)
+  })
+})
+
+describe('openPlayers', () => {
+  it('routes to the players phase with origin=home for the new-round flow', () => {
+    const s = initialState()
+    const next = reducer(s, { type: 'openPlayers', origin: 'home' })
+    expect(next.phase).toBe('players')
+    expect(next.playersOrigin).toBe('home')
+  })
+
+  it('routes to the players phase with origin=settings for the edit flow', () => {
+    const s = initialState()
+    const next = reducer(s, { type: 'openPlayers', origin: 'settings' })
+    expect(next.phase).toBe('players')
+    expect(next.playersOrigin).toBe('settings')
+  })
+})
+
+describe('arePlayersStale', () => {
+  it('is true when fewer than 3 players are stored', () => {
+    expect(arePlayersStale({ players: [], lastPlayed: todayISO() })).toBe(true)
+    expect(arePlayersStale({ players: ['A', 'B'], lastPlayed: todayISO() })).toBe(true)
+  })
+
+  it('is true when no last-played date is recorded', () => {
+    expect(arePlayersStale({ players: ['A', 'B', 'C'], lastPlayed: null })).toBe(true)
+  })
+
+  it('is true when the last-played date is not today', () => {
+    expect(arePlayersStale({ players: ['A', 'B', 'C'], lastPlayed: '2020-01-01' })).toBe(true)
+  })
+
+  it('is false when 3+ players were last played today', () => {
+    expect(arePlayersStale({ players: ['A', 'B', 'C'], lastPlayed: todayISO() })).toBe(false)
   })
 })
 
@@ -158,6 +201,16 @@ describe('startRound', () => {
     expect(s2.cursor).toBe(0)
     expect(s2.round).not.toBeNull()
     expect(s2.round!.categoryId).toBe('party')
+  })
+
+  it('records today as the last-played date in state and storage', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    const s0 = withPlayers('A', 'B', 'C')
+    const s1 = reducer(s0, { type: 'toggleCategory', id: 'party' })
+    const s2 = reducer(s1, { type: 'startRound', words: WORDS })
+    const today = todayISO()
+    expect(s2.lastPlayed).toBe(today)
+    expect(localStorage.getItem('imposter:lastPlayed')).toBe(JSON.stringify(today))
   })
 
   it('clears prior round result and winner', () => {

@@ -6,15 +6,27 @@ import { useT } from '../i18n/LocaleProvider'
 
 type Props = {
   players: string[]
+  /** ISO date of the previous round, used to flag a stale list. */
+  lastPlayed: string | null
   onAdd: (name: string) => void
   onRemove: (index: number) => void
   onContinue: () => void
   onBack: () => void
+  /** Which translation key drives the footer button label. */
+  continueLabel: 'continue' | 'done'
 }
 
 const MIN_PLAYERS = 3
 
-export function PlayersScreen({ players, onAdd, onRemove, onContinue, onBack }: Props) {
+export function PlayersScreen({
+  players,
+  lastPlayed,
+  onAdd,
+  onRemove,
+  onContinue,
+  onBack,
+  continueLabel,
+}: Props) {
   const t = useT()
   const [name, setName] = useState('')
 
@@ -25,13 +37,16 @@ export function PlayersScreen({ players, onAdd, onRemove, onContinue, onBack }: 
   }
 
   const canContinue = players.length >= MIN_PLAYERS
+  const today = new Date().toISOString().slice(0, 10)
+  const isStale =
+    lastPlayed !== null && lastPlayed !== today && players.length >= MIN_PLAYERS
 
   return (
     <Screen
       footer={
         <Button onClick={onContinue} disabled={!canContinue}>
           <span className="flex items-center justify-between w-full">
-            <span>{t('players.continue')}</span>
+            <span>{t(continueLabel === 'done' ? 'players.done' : 'players.continue')}</span>
             <span className="text-sm font-normal text-ink/60">
               {t('players.countSuffix', { count: players.length })}
             </span>
@@ -40,6 +55,14 @@ export function PlayersScreen({ players, onAdd, onRemove, onContinue, onBack }: 
       }
     >
       <ScreenHeader title={t('players.title')} onBack={onBack} />
+
+      {isStale && (
+        <div className="bg-card border border-line rounded-2xl px-4 py-3 mb-3">
+          <p className="text-sm text-white/80 leading-snug">
+            {t('players.staleHint', { date: lastPlayed })}
+          </p>
+        </div>
+      )}
 
       <div className="flex-1 scroll-smooth-y pb-2 space-y-2">
         {players.map((p, i) => (

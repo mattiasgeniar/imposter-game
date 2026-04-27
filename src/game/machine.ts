@@ -1,9 +1,10 @@
 import type { CategoryWord, GameState, Round, Settings, Winner } from './types'
 import { startRound, tallyVotes } from './round'
-import { loadCategories, loadPlayers, loadSettings } from './persistence'
+import { loadCategories, loadLastPlayed, loadPlayers, loadSettings, saveLastPlayed, todayISO } from './persistence'
 
 type Action =
   | { type: 'goto'; phase: GameState['phase'] }
+  | { type: 'openPlayers'; origin: 'home' | 'settings' }
   | { type: 'addPlayer'; name: string }
   | { type: 'removePlayer'; index: number }
   | { type: 'toggleCategory'; id: string }
@@ -40,13 +41,24 @@ export function initialState(): GameState {
     round: null,
     resultMostVoted: null,
     winner: null,
+    lastPlayed: loadLastPlayed(),
+    playersOrigin: 'home',
   }
+}
+
+export function arePlayersStale(state: Pick<GameState, 'players' | 'lastPlayed'>): boolean {
+  if (state.players.length < 3) return true
+  if (!state.lastPlayed) return true
+  return state.lastPlayed !== todayISO()
 }
 
 export function reducer(state: GameState, action: Action): GameState {
   switch (action.type) {
     case 'goto':
       return { ...state, phase: action.phase }
+
+    case 'openPlayers':
+      return { ...state, phase: 'players', playersOrigin: action.origin }
 
     case 'addPlayer': {
       const trimmed = action.name.trim()
@@ -74,7 +86,17 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'startRound': {
       const round = startRound(state.players, state.selectedCategoryIds, action.words, state.settings)
       if (!round) return state
-      return { ...state, round, phase: 'handoff', cursor: 0, resultMostVoted: null, winner: null }
+      const today = todayISO()
+      saveLastPlayed(today)
+      return {
+        ...state,
+        round,
+        phase: 'handoff',
+        cursor: 0,
+        resultMostVoted: null,
+        winner: null,
+        lastPlayed: today,
+      }
     }
 
     case 'advanceReveal': {

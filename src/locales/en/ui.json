@@ -11,8 +11,10 @@
   "players.add": "Add",
   "players.remove": "Remove",
   "players.continue": "Continue",
+  "players.done": "Save",
   "players.countSuffix": "{count} players",
   "players.minHint": "Add at least {min} players.",
+  "players.staleHint": "Last played on {date}. Confirm or edit the list before continuing.",
 
   "categories.title": "Categories",
   "categories.continue": "Play",
@@ -20,6 +22,10 @@
 
   "settings.title": "Game settings",
   "settings.start": "Start round",
+  "settings.players.title": "Players",
+  "settings.players.subtitle": "Edit the names that play this round.",
+  "settings.players.edit": "Edit",
+  "settings.players.empty": "No players yet",
   "settings.imposters.title": "Imposters",
   "settings.imposters.subtitle": "How many secret imposters there are.",
   "settings.imposters.decrease": "One imposter less",
