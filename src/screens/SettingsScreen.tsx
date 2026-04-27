@@ -122,8 +122,33 @@ export function SettingsScreen({
         <Card title={t('settings.install.title')} subtitle={t('settings.install.subtitle')}>
           <InstallSection install={install} />
         </Card>
+
+        <Credits />
       </div>
     </Screen>
+  )
+}
+
+function Credits() {
+  const t = useT()
+  return (
+    <div className="pt-2 pb-1 text-center space-y-1.5">
+      <p className="text-sm text-white/60 leading-snug">
+        {t('settings.credits.builtBy')}{' '}
+        <a
+          href="https://github.com/mattiasgeniar/imposter-game"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white/80 underline underline-offset-2 active:text-white"
+        >
+          {t('settings.credits.sourceLink')}
+        </a>
+        .
+      </p>
+      <p className="text-xs text-white/40 leading-snug">
+        {t('settings.credits.thanks')}
+      </p>
+    </div>
   )
 }
 

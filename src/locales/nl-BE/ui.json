@@ -50,6 +50,9 @@
   "settings.install.alreadyInstalled": "Al geïnstalleerd",
   "settings.install.iosInstructions": "Tik op het deelicoon onderaan en kies 'Zet op beginscherm'.",
   "settings.install.unavailable": "Je browser ondersteunt geen automatische installatie. Gebruik het menu van je browser.",
+  "settings.credits.builtBy": "Gemaakt door Mattias Geniar — open source op",
+  "settings.credits.sourceLink": "GitHub",
+  "settings.credits.thanks": "Met dank aan Floor, Tuur en Marijke voor de speelavonden die deze app inspireerden.",
 
   "install.toast.title": "Voeg toe aan je startscherm",
   "install.toast.subtitle": "Speel offline, opent als app.",
