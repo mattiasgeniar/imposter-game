@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { WaveFill } from './WaveFill'
 
 const HOLD_MS = 800
+const RELEASE_MS = 120
 
 type Props = {
   prompt: string
@@ -12,48 +13,40 @@ type Props = {
 
 export function HoldToReveal({ prompt, children, onFullyRevealed }: Props) {
   const [revealed, setRevealed] = useState(false)
-  const [progress, setProgress] = useState(0)
-  const startedAt = useRef<number | null>(null)
-  const raf = useRef<number | null>(null)
+  const [holding, setHolding] = useState(false)
+  const timeoutRef = useRef<number | null>(null)
 
-  const stopLoop = () => {
-    if (raf.current !== null) cancelAnimationFrame(raf.current)
-    raf.current = null
+  const clearPending = () => {
+    if (timeoutRef.current !== null) {
+      window.clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+    }
   }
 
   const cancel = () => {
-    stopLoop()
-    startedAt.current = null
+    clearPending()
+    setHolding(false)
     setRevealed(false)
-    setProgress(0)
   }
 
-  useEffect(() => () => stopLoop(), [])
-
-  const tick = () => {
-    if (startedAt.current === null) return
-    // tick runs from requestAnimationFrame, not during render — performance.now is safe here.
-    // eslint-disable-next-line react-hooks/purity
-    const elapsed = performance.now() - startedAt.current
-    const p = Math.min(1, elapsed / HOLD_MS)
-    setProgress(p)
-    if (p >= 1) {
-      stopLoop()
-      setRevealed((wasRevealed) => {
-        if (!wasRevealed) onFullyRevealed?.()
-        return true
-      })
-      return
-    }
-    raf.current = requestAnimationFrame(tick)
-  }
+  useEffect(() => () => clearPending(), [])
 
   const onDown = (e: React.PointerEvent) => {
     e.preventDefault()
     e.currentTarget.setPointerCapture?.(e.pointerId)
-    stopLoop()
-    startedAt.current = performance.now()
-    raf.current = requestAnimationFrame(tick)
+    clearPending()
+    setHolding(true)
+    // setTimeout fires reliably on iOS Safari even when rAF is throttled during
+    // touch — the previous rAF-driven fill stalled for ~500ms then jumped to
+    // full at the end of the hold. The visual is now driven by a CSS transition
+    // tied to `holding`; this timeout only flips the reveal state at HOLD_MS.
+    timeoutRef.current = window.setTimeout(() => {
+      timeoutRef.current = null
+      setRevealed((wasRevealed) => {
+        if (!wasRevealed) onFullyRevealed?.()
+        return true
+      })
+    }, HOLD_MS)
   }
 
   const onUp = () => cancel()
@@ -66,7 +59,10 @@ export function HoldToReveal({ prompt, children, onFullyRevealed }: Props) {
       onPointerLeave={onUp}
       className="relative flex-1 rounded-3xl bg-card border border-line overflow-hidden flex items-center justify-center select-none touch-none"
     >
-      <WaveFill percent={progress * 100} transitionMs={60} />
+      <WaveFill
+        percent={holding ? 100 : 0}
+        transitionMs={holding ? HOLD_MS : RELEASE_MS}
+      />
       {revealed ? (
         <div className="relative z-10 w-full px-6 text-center">{children}</div>
       ) : (
