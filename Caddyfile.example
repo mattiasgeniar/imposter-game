@@ -1,8 +1,11 @@
-imposter.ma.ttias.be {
+# Example Caddy site config for serving the built `dist/` directory.
+# Replace `your-domain.example` and `/srv/imposter` with your own values.
+
+your-domain.example {
     encode zstd gzip
 
     log {
-        output file /var/www/html/imposter.ma.ttias.be/logs/access.log
+        output file /srv/imposter/logs/access.log
     }
 
     header {
@@ -14,7 +17,7 @@ imposter.ma.ttias.be {
         -Server
     }
 
-    root * /var/www/html/imposter.ma.ttias.be/public
+    root * /srv/imposter/public
 
     # Vite hashed assets — safe to cache forever
     @assets path /assets/*
