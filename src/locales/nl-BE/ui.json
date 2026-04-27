@@ -82,6 +82,10 @@
   "play.timeUpSubtitle": "De discussie is gedaan — tijd om te stemmen.",
   "play.startVote": "Start de stemming",
   "play.exit": "Stop ronde",
+  "play.exitConfirm.title": "Stop deze ronde?",
+  "play.exitConfirm.body": "Het geheime woord en de imposter gaan verloren.",
+  "play.exitConfirm.keep": "Verder spelen",
+  "play.exitConfirm.quit": "Stop ronde",
 
   "vote.youAre": "Je bent",
   "vote.prompt": "Wie denk je dat de imposter is?",

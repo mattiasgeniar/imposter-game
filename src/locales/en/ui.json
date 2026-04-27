@@ -82,6 +82,10 @@
   "play.timeUpSubtitle": "Discussion's done — head to the vote.",
   "play.startVote": "Start the vote",
   "play.exit": "Exit round",
+  "play.exitConfirm.title": "Quit this round?",
+  "play.exitConfirm.body": "The secret word and the imposter will be lost.",
+  "play.exitConfirm.keep": "Keep playing",
+  "play.exitConfirm.quit": "Quit round",
 
   "vote.youAre": "You are",
   "vote.prompt": "Who do you think is the imposter?",
