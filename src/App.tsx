@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer, useState } from 'react'
 import { LocaleProvider, useLocale } from './i18n/LocaleProvider'
-import { initialState, reducer } from './game/machine'
+import { arePlayersStale, initialState, reducer } from './game/machine'
 import type { Action } from './game/machine'
 import {
   saveCategories,
@@ -66,7 +66,16 @@ function Game() {
     case 'home':
       return (
         <HomeScreen
-          onStart={() => navigate({ type: 'goto', phase: 'players' })}
+          onStart={() => {
+            // Skip the player-edit step on same-day replays — names from earlier
+            // today almost certainly still apply. On a new day or with too few
+            // players we route through the players screen so the host can confirm.
+            if (arePlayersStale(state)) {
+              navigate({ type: 'openPlayers', origin: 'home' })
+            } else {
+              navigate({ type: 'goto', phase: 'categories' })
+            }
+          }}
           onOpenSettings={() => navigate({ type: 'goto', phase: 'settings' })}
           banner={
             install.canInstall && showInstallToast ? (
@@ -83,16 +92,24 @@ function Game() {
         />
       )
 
-    case 'players':
+    case 'players': {
+      const fromSettings = state.playersOrigin === 'settings'
       return (
         <PlayersScreen
           players={state.players}
+          lastPlayed={state.lastPlayed}
           onAdd={(name) => dispatch({ type: 'addPlayer', name })}
           onRemove={(i) => dispatch({ type: 'removePlayer', index: i })}
-          onContinue={() => navigate({ type: 'goto', phase: 'categories' })}
-          onBack={() => navigate({ type: 'goto', phase: 'home' }, 'back')}
+          onContinue={() =>
+            navigate({ type: 'goto', phase: fromSettings ? 'settings' : 'categories' }, fromSettings ? 'back' : 'forward')
+          }
+          onBack={() =>
+            navigate({ type: 'goto', phase: fromSettings ? 'settings' : 'home' }, 'back')
+          }
+          continueLabel={fromSettings ? 'done' : 'continue'}
         />
       )
+    }
 
     case 'categories':
       return (
@@ -100,7 +117,7 @@ function Game() {
           selected={state.selectedCategoryIds}
           onToggle={(id) => dispatch({ type: 'toggleCategory', id })}
           onContinue={() => navigate({ type: 'goto', phase: 'settings' })}
-          onBack={() => navigate({ type: 'goto', phase: 'players' }, 'back')}
+          onBack={() => navigate({ type: 'goto', phase: 'home' }, 'back')}
         />
       )
 
@@ -108,10 +125,11 @@ function Game() {
       return (
         <SettingsScreen
           settings={state.settings}
-          playerCount={state.players.length}
+          players={state.players}
           categoryCount={state.selectedCategoryIds.length}
           install={install}
           onChange={(s) => dispatch({ type: 'setSettings', settings: s })}
+          onEditPlayers={() => navigate({ type: 'openPlayers', origin: 'settings' })}
           onBack={() => navigate({ type: 'goto', phase: 'categories' }, 'back')}
           onStart={() => navigate({ type: 'startRound', words: bundle.words })}
         />

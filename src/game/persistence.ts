@@ -6,7 +6,15 @@ const KEYS = {
   categories: 'imposter:categories',
   settings: 'imposter:settings',
   locale: 'imposter:locale',
+  lastPlayed: 'imposter:lastPlayed',
 } as const
+
+export function todayISO(now: Date = new Date()): string {
+  const yyyy = now.getFullYear()
+  const mm = String(now.getMonth() + 1).padStart(2, '0')
+  const dd = String(now.getDate()).padStart(2, '0')
+  return `${yyyy}-${mm}-${dd}`
+}
 
 export const DEFAULT_SETTINGS: Settings = {
   imposterCount: 1,
@@ -72,3 +80,10 @@ export function loadLocale(): Locale | null {
   return null
 }
 export function saveLocale(locale: Locale) { safeSet(KEYS.locale, locale) }
+
+export function loadLastPlayed(): string | null {
+  const v = safeGet(KEYS.lastPlayed)
+  if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null
+  return v
+}
+export function saveLastPlayed(date: string) { safeSet(KEYS.lastPlayed, date) }

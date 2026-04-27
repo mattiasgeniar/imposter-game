@@ -10,10 +10,11 @@ import type { InstallState } from '../lib/install'
 
 type Props = {
   settings: Settings
-  playerCount: number
+  players: string[]
   categoryCount: number
   install: InstallState
   onChange: (s: Settings) => void
+  onEditPlayers: () => void
   onStart: () => void
   onBack: () => void
 }
@@ -23,9 +24,19 @@ const TIME_MIN = 30
 const TIME_MAX = 600
 const MIN_PLAYERS = 3
 
-export function SettingsScreen({ settings, playerCount, categoryCount, install, onChange, onStart, onBack }: Props) {
+export function SettingsScreen({
+  settings,
+  players,
+  categoryCount,
+  install,
+  onChange,
+  onEditPlayers,
+  onStart,
+  onBack,
+}: Props) {
   const t = useT()
   const { locale, setLocale } = useLocale()
+  const playerCount = players.length
   const maxImposters = Math.max(1, playerCount - 1)
   const canStart = playerCount >= MIN_PLAYERS && categoryCount >= 1
 
@@ -34,6 +45,23 @@ export function SettingsScreen({ settings, playerCount, categoryCount, install, 
       <ScreenHeader title={t('settings.title')} onBack={onBack} />
 
       <div className="flex-1 scroll-smooth-y space-y-4 pb-2">
+        <Card title={t('settings.players.title')} subtitle={t('settings.players.subtitle')}>
+          <button
+            type="button"
+            onClick={onEditPlayers}
+            className="w-full flex items-center justify-between gap-3 text-left bg-line/40 active:bg-line rounded-xl px-3 py-3 press-ios-soft"
+          >
+            <span className="text-sm text-white/80 leading-snug truncate">
+              {playerCount === 0
+                ? t('settings.players.empty')
+                : players.join(', ')}
+            </span>
+            <span className="text-white/60 text-sm font-semibold shrink-0">
+              {t('settings.players.edit')} ›
+            </span>
+          </button>
+        </Card>
+
         <Card title={t('settings.imposters.title')} subtitle={t('settings.imposters.subtitle')}>
           <Stepper
             value={settings.imposterCount}

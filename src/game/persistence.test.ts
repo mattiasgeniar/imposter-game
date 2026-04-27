@@ -2,13 +2,16 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import {
   DEFAULT_SETTINGS,
   loadCategories,
+  loadLastPlayed,
   loadLocale,
   loadPlayers,
   loadSettings,
   saveCategories,
+  saveLastPlayed,
   saveLocale,
   savePlayers,
   saveSettings,
+  todayISO,
 } from './persistence'
 
 beforeEach(() => {
@@ -85,6 +88,38 @@ describe('loadSettings', () => {
     const s = loadSettings()
     expect(s.imposterCount).toBe(3)
     expect(s.roundSeconds).toBe(119)
+  })
+})
+
+describe('todayISO', () => {
+  it('formats year-month-day with zero padding', () => {
+    expect(todayISO(new Date(2026, 0, 5))).toBe('2026-01-05')
+    expect(todayISO(new Date(2026, 11, 31))).toBe('2026-12-31')
+  })
+
+  it('uses local time, not UTC', () => {
+    // 23:30 local on Apr 27 is the 27th in local terms regardless of timezone offset.
+    expect(todayISO(new Date(2026, 3, 27, 23, 30))).toBe('2026-04-27')
+  })
+})
+
+describe('loadLastPlayed', () => {
+  it('returns null when nothing stored', () => {
+    expect(loadLastPlayed()).toBeNull()
+  })
+
+  it('round-trips a valid YYYY-MM-DD date', () => {
+    saveLastPlayed('2026-04-27')
+    expect(loadLastPlayed()).toBe('2026-04-27')
+  })
+
+  it('rejects malformed date strings', () => {
+    localStorage.setItem('imposter:lastPlayed', JSON.stringify('yesterday'))
+    expect(loadLastPlayed()).toBeNull()
+    localStorage.setItem('imposter:lastPlayed', JSON.stringify('2026-4-27'))
+    expect(loadLastPlayed()).toBeNull()
+    localStorage.setItem('imposter:lastPlayed', JSON.stringify(20260427))
+    expect(loadLastPlayed()).toBeNull()
   })
 })
 
