@@ -20,6 +20,7 @@ export const DEFAULT_SETTINGS: Settings = {
   imposterCount: 1,
   roundSeconds: 120,
   hintsEnabled: true,
+  voteMode: 'individual',
 }
 
 const ROUND_TIME_MIN = 30
@@ -70,6 +71,9 @@ export function loadSettings(): Settings {
     imposterCount: clampNumber(v?.imposterCount, DEFAULT_SETTINGS.imposterCount, 1, 99),
     roundSeconds: clampNumber(v?.roundSeconds, DEFAULT_SETTINGS.roundSeconds, ROUND_TIME_MIN, ROUND_TIME_MAX),
     hintsEnabled: typeof v?.hintsEnabled === 'boolean' ? v.hintsEnabled : DEFAULT_SETTINGS.hintsEnabled,
+    voteMode: v?.voteMode === 'group' || v?.voteMode === 'individual'
+      ? v.voteMode
+      : DEFAULT_SETTINGS.voteMode,
   }
 }
 export function saveSettings(s: Settings) { safeSet(KEYS.settings, s) }

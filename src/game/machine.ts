@@ -13,6 +13,7 @@ type Action =
   | { type: 'advanceReveal' }
   | { type: 'finishPlay' }
   | { type: 'castVote'; voter: number; target: number }
+  | { type: 'castGroupVote'; target: number }
   | { type: 'imposterGuess'; word: string }
   | { type: 'reset' }
 
@@ -109,6 +110,11 @@ export function reducer(state: GameState, action: Action): GameState {
     }
 
     case 'finishPlay':
+      // Group mode skips per-player handoffs — the discussion already happened
+      // out loud, so the group makes one collective pick on a shared screen.
+      if (state.settings.voteMode === 'group') {
+        return { ...state, phase: 'vote', cursor: 0 }
+      }
       return { ...state, phase: 'voteHandoff', cursor: 0 }
 
     case 'castVote': {
@@ -154,6 +160,19 @@ export function reducer(state: GameState, action: Action): GameState {
       const isImposter = round.imposterIndices.includes(eliminated)
       const winner: Winner | null = isImposter ? null : 'imposter'
       return { ...state, round, resultMostVoted: top, winner, phase: 'result' }
+    }
+
+    case 'castGroupVote': {
+      if (!state.round) return state
+      if (action.target < 0 || action.target >= state.players.length) return state
+      const isImposter = state.round.imposterIndices.includes(action.target)
+      const winner: Winner | null = isImposter ? null : 'imposter'
+      return {
+        ...state,
+        resultMostVoted: [action.target],
+        winner,
+        phase: 'result',
+      }
     }
 
     case 'imposterGuess': {

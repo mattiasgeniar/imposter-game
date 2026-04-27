@@ -1,9 +1,16 @@
 export type Locale = 'nl-BE' | 'en'
 
+export type VoteMode = 'individual' | 'group'
+
 export type Settings = {
   imposterCount: number
   roundSeconds: number
   hintsEnabled: boolean
+  /**
+   * 'individual' (default): each player privately votes. Ties trigger a runoff.
+   * 'group': a single collective decision — anyone taps the suspect, group confirms.
+   */
+  voteMode: VoteMode
 }
 
 export type CategoryWord = { word: string; hint: string }
