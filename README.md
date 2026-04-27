@@ -26,6 +26,10 @@ npm run build
 npm run preview
 ```
 
+## Self-hosting
+
+The build is a static `dist/` directory — any static host works. A reference [`Caddyfile.example`](Caddyfile.example) is included with the cache-control headers and security headers used in production. Replace the placeholders with your domain and paths, drop it into Caddy's site-config directory, and `rsync` the `dist/` after each build.
+
 ## Contributing words
 
 Word lists live as JSON in [`src/locales/<locale>/words/`](src/locales). To add or edit content, no code changes are needed — just edit the JSON.
