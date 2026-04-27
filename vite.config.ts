@@ -1,9 +1,28 @@
 /// <reference types="vitest/config" />
+import { execFileSync } from 'node:child_process'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+function git(...args: string[]): string {
+  return execFileSync('git', args, { encoding: 'utf8' }).trim()
+}
+
+function gitInfo() {
+  try {
+    return { commit: git('rev-parse', '--short', 'HEAD'), date: git('log', '-1', '--format=%cI') }
+  } catch {
+    return { commit: 'dev', date: new Date().toISOString() }
+  }
+}
+
+const { commit: APP_COMMIT, date: APP_COMMIT_DATE } = gitInfo()
+
 export default defineConfig({
+  define: {
+    __APP_COMMIT__: JSON.stringify(APP_COMMIT),
+    __APP_COMMIT_DATE__: JSON.stringify(APP_COMMIT_DATE),
+  },
   test: {
     environment: 'happy-dom',
     globals: false,
