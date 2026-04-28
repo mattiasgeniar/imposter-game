@@ -78,6 +78,7 @@
   "reveal.continue": "Continue",
 
   "play.category": "Category",
+  "play.starter": "{name} starts!",
   "play.instructions": "Take turns saying one word related to the secret. The imposter bluffs along.",
   "play.timeUp": "Time's up!",
   "play.timeUpSubtitle": "Discussion's done — head to the vote.",

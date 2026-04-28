@@ -8,6 +8,7 @@ import { formatTime } from '../game/format'
 type Props = {
   totalSeconds: number
   categoryId: string
+  starterName: string
   onFinish: () => void
   onAbort: () => void
 }
@@ -22,7 +23,7 @@ type NavigatorWithWakeLock = Navigator & {
   wakeLock?: { request: (type: 'screen') => Promise<WakeLockSentinel> }
 }
 
-export function PlayScreen({ totalSeconds, categoryId, onFinish, onAbort }: Props) {
+export function PlayScreen({ totalSeconds, categoryId, starterName, onFinish, onAbort }: Props) {
   const t = useT()
   const { bundle } = useLocale()
   const meta = bundle?.categories[categoryId]
@@ -145,7 +146,10 @@ export function PlayScreen({ totalSeconds, categoryId, onFinish, onAbort }: Prop
         <div className="mt-8 text-7xl font-extrabold tabular-nums tracking-tight">
           {formatTime(Math.ceil(remaining))}
         </div>
-        <div className="text-white/60 mt-3 max-w-xs leading-snug">
+        <div className="mt-4 text-xl font-semibold max-w-xs leading-snug">
+          {t('play.starter', { name: starterName })}
+        </div>
+        <div className="text-white/60 mt-1 max-w-xs leading-snug text-sm">
           {t('play.instructions')}
         </div>
       </div>
