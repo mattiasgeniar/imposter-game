@@ -26,6 +26,7 @@ export function startRound(
   }
   const imposterCount = Math.max(1, Math.min(settings.imposterCount, players.length - 1))
   const imposterIndices = indices.slice(0, imposterCount).sort((a, b) => a - b)
+  const starterIndex = randomInt(players.length)
 
   return {
     categoryId,
@@ -33,6 +34,7 @@ export function startRound(
     word: pick.word,
     hint: pick.hint,
     imposterIndices,
+    starterIndex,
     votes: players.map(() => null),
     tieRevoteAmong: null,
   }
