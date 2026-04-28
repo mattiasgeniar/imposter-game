@@ -101,4 +101,11 @@ describe('startRound', () => {
     expect(r.imposterIndices).toEqual([...r.imposterIndices].sort((a, b) => a - b))
     expect(r.word.length).toBeGreaterThan(0)
   })
+
+  it('picks a starterIndex within the player range', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    const r = startRound(['A', 'B', 'C', 'D'], ['party'], SAMPLE_WORDS, SETTINGS)!
+    expect(r.starterIndex).toBeGreaterThanOrEqual(0)
+    expect(r.starterIndex).toBeLessThan(4)
+  })
 })

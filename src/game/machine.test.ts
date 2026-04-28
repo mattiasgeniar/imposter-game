@@ -30,6 +30,7 @@ function withRound(state: GameState, override: Partial<Round> = {}): GameState {
     word: 'Pizza',
     hint: 'Italian',
     imposterIndices: [1],
+    starterIndex: 0,
     votes: players.map(() => null),
     tieRevoteAmong: null,
     ...override,

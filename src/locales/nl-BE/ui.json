@@ -78,6 +78,7 @@
   "reveal.continue": "Doorgaan",
 
   "play.category": "Categorie",
+  "play.starter": "{name} begint!",
   "play.instructions": "Iedereen om beurt: zeg één woord dat met het geheim te maken heeft. De imposter bluft mee.",
   "play.timeUp": "Tijd om!",
   "play.timeUpSubtitle": "De discussie is gedaan — tijd om te stemmen.",

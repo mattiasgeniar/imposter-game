@@ -21,6 +21,7 @@ export type Round = {
   word: string
   hint: string
   imposterIndices: number[]
+  starterIndex: number
   votes: (number | null)[]
   tieRevoteAmong: number[] | null
 }
