@@ -28,5 +28,15 @@
   { "word": "Boogschieten", "hint": "Met pijl en boog" },
   { "word": "Curling", "hint": "Met steen op het ijs" },
   { "word": "Paardrijden", "hint": "Op een paard" },
-  { "word": "Schaken", "hint": "Denksport aan een bord" }
+  { "word": "Schaken", "hint": "Denksport aan een bord" },
+  { "word": "Bowling", "hint": "Pinnen omver gooien" },
+  { "word": "Lacrosse", "hint": "Stick met een netje" },
+  { "word": "Trefbal", "hint": "Ontwijk de bal" },
+  { "word": "Skateboarden", "hint": "Op vier kleine wieltjes" },
+  { "word": "Polo", "hint": "Te paard met een mokerstok" },
+  { "word": "Squash", "hint": "Indoor racketsport" },
+  { "word": "Cricket", "hint": "Bat en wickets" },
+  { "word": "Worstelen", "hint": "Vastpinnen op de mat" },
+  { "word": "Pilates", "hint": "Core-oefeningen op een matje" },
+  { "word": "Turnen", "hint": "Op de balk en de mat" }
 ]

@@ -28,5 +28,12 @@
   { "word": "Sushi Roll", "hint": "Wrapped in seaweed" },
   { "word": "Bagel", "hint": "Boiled and baked" },
   { "word": "Bacon", "hint": "Breakfast favourite" },
-  { "word": "Pie", "hint": "Sweet or savoury" }
+  { "word": "Pie", "hint": "Sweet or savoury" },
+  { "word": "Taco", "hint": "Mexican folded shell" },
+  { "word": "Cookie", "hint": "Goes with milk" },
+  { "word": "Avocado", "hint": "Toast topper" },
+  { "word": "Falafel", "hint": "Fried chickpea balls" },
+  { "word": "Quiche", "hint": "Savoury egg pie" },
+  { "word": "Guacamole", "hint": "Green dip" },
+  { "word": "Pretzel", "hint": "Twisted bread" }
 ]

@@ -21,12 +21,17 @@ export const CATEGORY_IDS = [
   'family',
   'brands',
   'places',
+  'buildings',
   'animals',
   'sports',
   'films',
+  'tvshows',
   'music',
   'jobs',
   'technology',
+  'videogames',
+  'superheroes',
+  'mythical',
   'spicy',
 ] as const
 

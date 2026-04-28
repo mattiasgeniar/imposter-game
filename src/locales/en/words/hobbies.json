@@ -28,5 +28,13 @@
   { "word": "Model Building", "hint": "Tiny parts and glue" },
   { "word": "Vlogging", "hint": "Filming yourself online" },
   { "word": "Board Games", "hint": "Around the table with friends" },
-  { "word": "Cosplay", "hint": "Dressing as a character" }
+  { "word": "Cosplay", "hint": "Dressing as a character" },
+  { "word": "Stargazing", "hint": "Looking at the night sky" },
+  { "word": "Sailing", "hint": "On the water with sails" },
+  { "word": "Storytelling", "hint": "Around a fire" },
+  { "word": "Magic Tricks", "hint": "Cards and sleight of hand" },
+  { "word": "Rock Climbing", "hint": "Up the wall" },
+  { "word": "Volunteering", "hint": "Helping for free" },
+  { "word": "Geocaching", "hint": "Treasure hunt with GPS" },
+  { "word": "Origami", "hint": "Paper folding" }
 ]

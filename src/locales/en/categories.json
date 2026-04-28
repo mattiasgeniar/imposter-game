@@ -64,6 +64,31 @@
     "description": "Apps, gadgets and everything that beeps — pretend you get it.",
     "emoji": "📱"
   },
+  "tvshows": {
+    "name": "TV Shows",
+    "description": "Series everyone's binged — can you sniff out the imposter?",
+    "emoji": "📺"
+  },
+  "videogames": {
+    "name": "Videogames",
+    "description": "Pixels and controllers — pretend you've played them all.",
+    "emoji": "🎮"
+  },
+  "superheroes": {
+    "name": "Superheroes",
+    "description": "Capes and powers — can you suit up without slipping?",
+    "emoji": "🦸"
+  },
+  "mythical": {
+    "name": "Myths & Magic",
+    "description": "Dragons, witches, and creatures from legend — bluff in a fantasy realm.",
+    "emoji": "🐉"
+  },
+  "buildings": {
+    "name": "Buildings",
+    "description": "Places we visit and structures we know — recognise the venue or fake it.",
+    "emoji": "🏛️"
+  },
   "spicy": {
     "name": "Spicy",
     "description": "Bold and a little risky — perfect for tension and laughs.",

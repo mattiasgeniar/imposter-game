@@ -28,5 +28,15 @@
   { "word": "Tuinman", "hint": "Werkt buiten met planten" },
   { "word": "Kok", "hint": "In de keuken" },
   { "word": "Kassier", "hint": "Achter de kassa" },
-  { "word": "Garagist", "hint": "Repareert auto's" }
+  { "word": "Garagist", "hint": "Repareert auto's" },
+  { "word": "Astronaut", "hint": "Gaat de ruimte in" },
+  { "word": "Detective", "hint": "Lost zaken op" },
+  { "word": "Dierenarts", "hint": "Voor onze huisdieren" },
+  { "word": "Goochelaar", "hint": "Tovert konijn uit hoed" },
+  { "word": "Redder", "hint": "Houdt het zwembad in de gaten" },
+  { "word": "Komiek", "hint": "Vertelt grappen op het podium" },
+  { "word": "Fotograaf", "hint": "Achter de lens" },
+  { "word": "Wetenschapper", "hint": "In het labo" },
+  { "word": "Soldaat", "hint": "In uniform" },
+  { "word": "DJ", "hint": "Mixt de muziek" }
 ]

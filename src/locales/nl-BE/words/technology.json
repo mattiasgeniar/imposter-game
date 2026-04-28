@@ -28,5 +28,12 @@
   { "word": "Drone", "hint": "Vliegt met camera" },
   { "word": "Spelconsole", "hint": "PlayStation of Xbox" },
   { "word": "Robot", "hint": "Zelfstandig toestel" },
-  { "word": "Lader", "hint": "Vult je batterij weer op" }
+  { "word": "Lader", "hint": "Vult je batterij weer op" },
+  { "word": "VR-bril", "hint": "Stap in een virtuele wereld" },
+  { "word": "AI-assistent", "hint": "Slimme stemhulp" },
+  { "word": "Algoritme", "hint": "Bepaalt wat je ziet" },
+  { "word": "Bitcoin", "hint": "Digitale munt" },
+  { "word": "Hologram", "hint": "3D-projectie" },
+  { "word": "Satelliet", "hint": "In een baan om de aarde" },
+  { "word": "Printer", "hint": "Spuwt papier uit" }
 ]

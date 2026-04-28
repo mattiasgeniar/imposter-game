@@ -28,5 +28,13 @@
   { "word": "Choir", "hint": "Group singing together" },
   { "word": "Boy band", "hint": "Group of singing boys" },
   { "word": "DJ set", "hint": "Mixing tracks live" },
-  { "word": "Karaoke", "hint": "Sing along to lyrics" }
+  { "word": "Karaoke", "hint": "Sing along to lyrics" },
+  { "word": "Violin", "hint": "Bowed strings" },
+  { "word": "Trumpet", "hint": "Brass with valves" },
+  { "word": "Flute", "hint": "Held sideways, blown" },
+  { "word": "Orchestra", "hint": "Many instruments together" },
+  { "word": "Opera", "hint": "Singing on stage in costume" },
+  { "word": "Bagpipes", "hint": "Scottish wail" },
+  { "word": "Sitar", "hint": "Indian strings" },
+  { "word": "Accordion", "hint": "Squeeze and play" }
 ]

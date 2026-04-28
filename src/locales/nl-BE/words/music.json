@@ -28,5 +28,13 @@
   { "word": "Album", "hint": "Verzameling liedjes" },
   { "word": "Vinyl", "hint": "Zwarte plaat met muziek" },
   { "word": "Fanfare", "hint": "Dorpsmuziek met blazers" },
-  { "word": "Boyband", "hint": "Groep zingende jongens" }
+  { "word": "Boyband", "hint": "Groep zingende jongens" },
+  { "word": "Viool", "hint": "Gestreken snaren" },
+  { "word": "Trompet", "hint": "Koperblazer met kleppen" },
+  { "word": "Dwarsfluit", "hint": "Zijwaarts geblazen" },
+  { "word": "Orkest", "hint": "Veel instrumenten samen" },
+  { "word": "Opera", "hint": "Zingen in kostuum op het podium" },
+  { "word": "Doedelzak", "hint": "Schotse klank" },
+  { "word": "Sitar", "hint": "Indische snaren" },
+  { "word": "Accordeon", "hint": "Trekzak" }
 ]

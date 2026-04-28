@@ -28,5 +28,15 @@
   { "word": "Gardener", "hint": "Works outside with plants" },
   { "word": "Chef", "hint": "In the kitchen" },
   { "word": "Cashier", "hint": "Behind the till" },
-  { "word": "Mechanic", "hint": "Fixes cars" }
+  { "word": "Mechanic", "hint": "Fixes cars" },
+  { "word": "Astronaut", "hint": "Goes to space" },
+  { "word": "Detective", "hint": "Solves cases" },
+  { "word": "Veterinarian", "hint": "Animal doctor" },
+  { "word": "Magician", "hint": "Pulls rabbit from hat" },
+  { "word": "Lifeguard", "hint": "Watches the pool" },
+  { "word": "Comedian", "hint": "Tells jokes on stage" },
+  { "word": "Photographer", "hint": "Behind the lens" },
+  { "word": "Scientist", "hint": "In the lab" },
+  { "word": "Soldier", "hint": "In uniform" },
+  { "word": "DJ", "hint": "Mixes the music" }
 ]
