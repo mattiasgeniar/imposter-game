@@ -5,7 +5,7 @@ A single-device "find the imposter" party game. Pass the phone around: everyone 
 Hey, this game is now available at **https://imposter.ma.ttias.be/** — installable as a PWA, fully offline once loaded. No tracking, no analytics, no accounts; everything runs client-side and nothing ever leaves the device (player names and settings live in `localStorage`).
 
 <p align="center">
-  <img src="docs/screenshot.png" alt="Imposter home screen" width="320">
+  <img src="docs/screenshots.png" alt="Imposter — home, categories, settings, and a round in progress" width="900">
 </p>
 
 ## Stack
