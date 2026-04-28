@@ -69,22 +69,22 @@ describe('loadSettings', () => {
     expect(loadSettings().roundSeconds).toBe(30)
   })
 
-  it('falls back to individual when voteMode is missing or invalid', () => {
+  it('falls back to group when voteMode is missing or invalid', () => {
     localStorage.setItem(
       'imposter:settings',
       JSON.stringify({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'huh' }),
     )
-    expect(loadSettings().voteMode).toBe('individual')
+    expect(loadSettings().voteMode).toBe('group')
     localStorage.setItem(
       'imposter:settings',
       JSON.stringify({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true }),
     )
-    expect(loadSettings().voteMode).toBe('individual')
+    expect(loadSettings().voteMode).toBe('group')
   })
 
-  it('round-trips a group voteMode', () => {
-    saveSettings({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'group' })
-    expect(loadSettings().voteMode).toBe('group')
+  it('round-trips an individual voteMode', () => {
+    saveSettings({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'individual' })
+    expect(loadSettings().voteMode).toBe('individual')
   })
 
   it('rejects non-finite numeric values and falls back to defaults', () => {

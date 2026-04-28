@@ -4,6 +4,7 @@ import { Button } from '../components/Button'
 import { WaveFill } from '../components/WaveFill'
 import { useLocale, useT } from '../i18n/LocaleProvider'
 import { formatTime } from '../game/format'
+import { playRoundEndCue, preloadRoundEndCue } from '../lib/sound'
 
 type Props = {
   totalSeconds: number
@@ -34,6 +35,10 @@ export function PlayScreen({ totalSeconds, categoryId, starterName, onFinish, on
   // even when the OS throttles us. The visible wave wobble is a separate CSS
   // animation that runs continuously regardless of React rerenders.
   useEffect(() => {
+    // Decode the bell ahead of time so it's instant when the timer hits 0.
+    // Safe to call on every mount — the module caches the Audio element.
+    preloadRoundEndCue()
+
     let stopped = false
     const startedAt = performance.now()
     const id = window.setInterval(() => {
@@ -44,6 +49,7 @@ export function PlayScreen({ totalSeconds, categoryId, starterName, onFinish, on
       if (left <= 0) {
         stopped = true
         clearInterval(id)
+        playRoundEndCue()
       }
     }, 250)
     return () => { stopped = true; clearInterval(id) }

@@ -18,9 +18,9 @@ export function todayISO(now: Date = new Date()): string {
 
 export const DEFAULT_SETTINGS: Settings = {
   imposterCount: 1,
-  roundSeconds: 120,
+  roundSeconds: 180,
   hintsEnabled: true,
-  voteMode: 'individual',
+  voteMode: 'group',
 }
 
 const ROUND_TIME_MIN = 30

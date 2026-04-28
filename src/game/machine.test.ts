@@ -71,7 +71,7 @@ describe('initialState', () => {
     const s = initialState()
     expect(s.players).toEqual(['Tuur', 'Floor'])
     expect(s.selectedCategoryIds).toEqual(['party'])
-    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false, voteMode: 'individual' })
+    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false, voteMode: 'group' })
   })
 
   it('clamps stored imposterCount that exceeds player count - 1', () => {
@@ -259,7 +259,8 @@ describe('advanceReveal', () => {
 describe('finishPlay', () => {
   it('moves to voteHandoff with cursor 0 in individual mode', () => {
     const s = withPlayers('A', 'B', 'C')
-    const next = reducer({ ...s, phase: 'play' }, { type: 'finishPlay' })
+    const individualState = { ...s, phase: 'play' as const, settings: { ...s.settings, voteMode: 'individual' as const } }
+    const next = reducer(individualState, { type: 'finishPlay' })
     expect(next.phase).toBe('voteHandoff')
     expect(next.cursor).toBe(0)
   })
