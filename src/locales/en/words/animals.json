@@ -28,5 +28,15 @@
   { "word": "Hedgehog", "hint": "Has spines" },
   { "word": "Butterfly", "hint": "Patterned wings" },
   { "word": "Bee", "hint": "Makes honey" },
-  { "word": "Ant", "hint": "Tiny in a colony" }
+  { "word": "Ant", "hint": "Tiny in a colony" },
+  { "word": "Octopus", "hint": "Eight arms" },
+  { "word": "Flamingo", "hint": "Pink and one-legged" },
+  { "word": "Chameleon", "hint": "Changes colour" },
+  { "word": "Platypus", "hint": "Strangest mammal" },
+  { "word": "Sloth", "hint": "Slow climber" },
+  { "word": "Peacock", "hint": "Colourful tail" },
+  { "word": "Jellyfish", "hint": "No bones, stings" },
+  { "word": "Porcupine", "hint": "Covered in quills" },
+  { "word": "Frog", "hint": "Hops in the pond" },
+  { "word": "Cheetah", "hint": "Fastest runner" }
 ]

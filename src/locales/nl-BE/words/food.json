@@ -26,5 +26,12 @@
   { "word": "Cuberdon", "hint": "Gentse neuzeke" },
   { "word": "Frikandel", "hint": "Aan het frietkot" },
   { "word": "Boterham", "hint": "In de brooddoos" },
-  { "word": "Smos", "hint": "Belegd broodje" }
+  { "word": "Smos", "hint": "Belegd broodje" },
+  { "word": "Taco", "hint": "Mexicaans gevouwen schelpje" },
+  { "word": "Koekje", "hint": "Bij de koffie" },
+  { "word": "Avocado", "hint": "Op je toast" },
+  { "word": "Falafel", "hint": "Gefrituurde kikkererwtenballetjes" },
+  { "word": "Quiche", "hint": "Hartige eiertaart" },
+  { "word": "Guacamole", "hint": "Groene dip" },
+  { "word": "Pretzel", "hint": "Geknoopt brood" }
 ]

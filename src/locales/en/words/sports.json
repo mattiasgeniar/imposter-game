@@ -28,5 +28,15 @@
   { "word": "Archery", "hint": "Bow and arrow" },
   { "word": "Curling", "hint": "Stones on ice" },
   { "word": "Horse Riding", "hint": "On a horse" },
-  { "word": "Chess", "hint": "Board sport with thinking" }
+  { "word": "Chess", "hint": "Board sport with thinking" },
+  { "word": "Bowling", "hint": "Knock down pins" },
+  { "word": "Lacrosse", "hint": "Stick with a net" },
+  { "word": "Dodgeball", "hint": "Avoid the ball" },
+  { "word": "Skateboarding", "hint": "On four small wheels" },
+  { "word": "Polo", "hint": "On horseback with a mallet" },
+  { "word": "Squash", "hint": "Racket sport indoors" },
+  { "word": "Cricket", "hint": "Bat and stumps" },
+  { "word": "Wrestling", "hint": "Pin to the mat" },
+  { "word": "Pilates", "hint": "Core workout on a mat" },
+  { "word": "Gymnastics", "hint": "Balance beam and floor" }
 ]

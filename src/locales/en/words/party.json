@@ -28,5 +28,9 @@
   { "word": "Bridal Shower", "hint": "Before the wedding too" },
   { "word": "House Party", "hint": "At someone's place" },
   { "word": "Surprise Party", "hint": "They didn't see it coming" },
-  { "word": "New Year's Eve", "hint": "End of the year" }
+  { "word": "New Year's Eve", "hint": "End of the year" },
+  { "word": "Piñata", "hint": "Hit it for sweets" },
+  { "word": "Parade", "hint": "Marching down the street" },
+  { "word": "Photo Booth", "hint": "Strip of small photos" },
+  { "word": "Limbo", "hint": "How low can you go?" }
 ]

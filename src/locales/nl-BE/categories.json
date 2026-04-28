@@ -64,6 +64,31 @@
     "description": "Apps, gadgets en alles wat blinkt — doe of je het snapt.",
     "emoji": "📱"
   },
+  "tvshows": {
+    "name": "Series",
+    "description": "Series die iedereen bingewatcht — vis jij de imposter eruit?",
+    "emoji": "📺"
+  },
+  "videogames": {
+    "name": "Games",
+    "description": "Pixels en controllers — doe alsof je ze allemaal gespeeld hebt.",
+    "emoji": "🎮"
+  },
+  "superheroes": {
+    "name": "Superhelden",
+    "description": "Capes en superkrachten — bluf je je door zonder te struikelen?",
+    "emoji": "🦸"
+  },
+  "mythical": {
+    "name": "Mythen & Magie",
+    "description": "Draken, heksen en wezens uit de legendes — bluf in een fantasiewereld.",
+    "emoji": "🐉"
+  },
+  "buildings": {
+    "name": "Gebouwen",
+    "description": "Plekken waar we komen en gebouwen die we kennen — herken ze of doe alsof.",
+    "emoji": "🏛️"
+  },
   "spicy": {
     "name": "Pikant",
     "description": "Gedurfd en brutaal — perfect om de spanning op te wekken.",

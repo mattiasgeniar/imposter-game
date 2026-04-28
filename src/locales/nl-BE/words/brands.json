@@ -28,5 +28,13 @@
   { "word": "Spotify", "hint": "Muziekdienst" },
   { "word": "Lays", "hint": "Chips" },
   { "word": "Lego", "hint": "Bouwblokjes" },
-  { "word": "Action", "hint": "Goedkope winkel met alles" }
+  { "word": "Action", "hint": "Goedkope winkel met alles" },
+  { "word": "Mercedes", "hint": "Duitse luxewagen" },
+  { "word": "Audi", "hint": "Vier ringen" },
+  { "word": "Volkswagen", "hint": "Volkse wagen" },
+  { "word": "PlayStation", "hint": "Sony-console" },
+  { "word": "Xbox", "hint": "Microsoft-console" },
+  { "word": "KFC", "hint": "Emmer kip" },
+  { "word": "Uber", "hint": "Ritje via app" },
+  { "word": "Airbnb", "hint": "Vakantieverblijf via app" }
 ]

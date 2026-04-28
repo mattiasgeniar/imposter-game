@@ -28,5 +28,13 @@
   { "word": "Lay's", "hint": "Crisps" },
   { "word": "Lego", "hint": "Building blocks" },
   { "word": "Disney", "hint": "Mouse-eared brand" },
-  { "word": "FedEx", "hint": "Parcel delivery" }
+  { "word": "FedEx", "hint": "Parcel delivery" },
+  { "word": "Mercedes", "hint": "German luxury car" },
+  { "word": "Audi", "hint": "Four rings" },
+  { "word": "Volkswagen", "hint": "People's car" },
+  { "word": "PlayStation", "hint": "Sony console" },
+  { "word": "Xbox", "hint": "Microsoft console" },
+  { "word": "KFC", "hint": "Fried chicken bucket" },
+  { "word": "Uber", "hint": "Ride-hailing app" },
+  { "word": "Airbnb", "hint": "Stay in someone's home" }
 ]

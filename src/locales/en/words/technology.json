@@ -28,5 +28,12 @@
   { "word": "Drone", "hint": "Flies with a camera" },
   { "word": "Game Console", "hint": "PlayStation or Xbox" },
   { "word": "Robot", "hint": "Autonomous machine" },
-  { "word": "Charger", "hint": "Refills your battery" }
+  { "word": "Charger", "hint": "Refills your battery" },
+  { "word": "VR Headset", "hint": "Step into a virtual world" },
+  { "word": "AI Assistant", "hint": "Voice helper" },
+  { "word": "Algorithm", "hint": "Decides what you see" },
+  { "word": "Bitcoin", "hint": "Digital coin" },
+  { "word": "Hologram", "hint": "3D projection" },
+  { "word": "Satellite", "hint": "Orbits the Earth" },
+  { "word": "Printer", "hint": "Spits out paper" }
 ]

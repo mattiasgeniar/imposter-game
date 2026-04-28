@@ -28,5 +28,13 @@
   { "word": "Casablanca", "hint": "Black-and-white classic" },
   { "word": "The Shawshank Redemption", "hint": "Prison drama" },
   { "word": "Schindler's List", "hint": "WWII drama" },
-  { "word": "The Dark Knight", "hint": "Batman film" }
+  { "word": "The Dark Knight", "hint": "Batman film" },
+  { "word": "Shrek", "hint": "Green ogre" },
+  { "word": "Up", "hint": "House on balloons" },
+  { "word": "La La Land", "hint": "Musical romance" },
+  { "word": "Finding Nemo", "hint": "Lost fish" },
+  { "word": "Aladdin", "hint": "Magic lamp" },
+  { "word": "Home Alone", "hint": "Christmas booby traps" },
+  { "word": "E.T.", "hint": "Phone home" },
+  { "word": "The Hunger Games", "hint": "Dystopian arena" }
 ]
