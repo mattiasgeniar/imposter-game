@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Screen } from '../components/Screen'
 import { Button } from '../components/Button'
+import { ExitRoundButton } from '../components/ExitRoundButton'
 import { HoldToReveal } from '../components/HoldToReveal'
 import { useT } from '../i18n/LocaleProvider'
 
@@ -11,9 +12,10 @@ type Props = {
   hint: string
   hintsEnabled: boolean
   onContinue: () => void
+  onAbort: () => void
 }
 
-export function RevealScreen({ playerName, isImposter, word, hint, hintsEnabled, onContinue }: Props) {
+export function RevealScreen({ playerName, isImposter, word, hint, hintsEnabled, onContinue, onAbort }: Props) {
   const t = useT()
   const [seen, setSeen] = useState(false)
 
@@ -25,6 +27,7 @@ export function RevealScreen({ playerName, isImposter, word, hint, hintsEnabled,
         </Button>
       }
     >
+      <ExitRoundButton onConfirm={onAbort} />
       <div className="text-center pt-4 pb-3">
         <p className="text-white/50 text-sm uppercase tracking-widest">{t('reveal.youAre')}</p>
         <h2 className="text-2xl font-bold mt-1">{playerName}</h2>

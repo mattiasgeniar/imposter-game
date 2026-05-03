@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Screen } from '../components/Screen'
 import { Button } from '../components/Button'
+import { ExitRoundButton } from '../components/ExitRoundButton'
 import { WaveFill } from '../components/WaveFill'
 import { useLocale, useT } from '../i18n/LocaleProvider'
 import { formatTime } from '../game/format'
@@ -29,7 +30,6 @@ export function PlayScreen({ totalSeconds, categoryId, starterName, onFinish, on
   const { bundle } = useLocale()
   const meta = bundle?.categories[categoryId]
   const [remaining, setRemaining] = useState(totalSeconds)
-  const [confirmingExit, setConfirmingExit] = useState(false)
 
   // Tick every 250ms so the digit display and wave-fill height stay in sync
   // even when the OS throttles us. The visible wave wobble is a separate CSS
@@ -130,16 +130,7 @@ export function PlayScreen({ totalSeconds, categoryId, starterName, onFinish, on
     <Screen>
       <WaveFill percent={filledPercent} />
 
-      <div className="absolute top-0 right-0 z-20 pt-safe pr-safe">
-        <button
-          type="button"
-          onClick={() => setConfirmingExit(true)}
-          aria-label={t('play.exit')}
-          className="h-10 w-10 rounded-full bg-card/80 backdrop-blur border border-line text-white/80 active:bg-line text-xl press-ios-soft flex items-center justify-center"
-        >
-          ✕
-        </button>
-      </div>
+      <ExitRoundButton onConfirm={onAbort} />
 
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center gap-3">
         <div className="text-white/60 uppercase tracking-widest text-xs">
@@ -159,46 +150,6 @@ export function PlayScreen({ totalSeconds, categoryId, starterName, onFinish, on
           {t('play.instructions')}
         </div>
       </div>
-
-      {confirmingExit && (
-        <ExitConfirmation
-          onCancel={() => setConfirmingExit(false)}
-          onConfirm={onAbort}
-        />
-      )}
     </Screen>
-  )
-}
-
-function ExitConfirmation({ onCancel, onConfirm }: { onCancel: () => void; onConfirm: () => void }) {
-  const t = useT()
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label={t('play.exitConfirm.title')}
-      className="fixed inset-0 z-30 flex items-start justify-center px-4 pt-safe bg-ink/70 backdrop-blur-sm"
-      onClick={onCancel}
-    >
-      <div
-        className="mt-3 w-full max-w-sm bg-card border border-line rounded-2xl p-5 space-y-4 shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2 className="text-lg font-bold leading-tight">{t('play.exitConfirm.title')}</h2>
-        <p className="text-sm text-white/70 leading-snug">{t('play.exitConfirm.body')}</p>
-        <div className="flex gap-2 pt-1">
-          <div className="flex-1">
-            <Button size="md" variant="secondary" onClick={onCancel}>
-              {t('play.exitConfirm.keep')}
-            </Button>
-          </div>
-          <div className="flex-1">
-            <Button size="md" variant="danger" onClick={onConfirm}>
-              {t('play.exitConfirm.quit')}
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }
