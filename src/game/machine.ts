@@ -1,10 +1,11 @@
 import type { CategoryWord, GameState, Round, Settings, Winner } from './types'
 import { startRound, tallyVotes } from './round'
-import { loadCategories, loadLastPlayed, loadPlayers, loadSettings, saveLastPlayed, todayISO } from './persistence'
+import { loadCategories, loadLastPlayed, loadPlayers, loadSettings, recommendedRoundSeconds, saveLastPlayed, todayISO } from './persistence'
 
 type Action =
   | { type: 'goto'; phase: GameState['phase'] }
   | { type: 'openPlayers'; origin: 'home' | 'settings' }
+  | { type: 'openSettings'; origin: 'home' | 'categories' }
   | { type: 'addPlayer'; name: string }
   | { type: 'removePlayer'; index: number }
   | { type: 'toggleCategory'; id: string }
@@ -29,6 +30,9 @@ function clampSettings(settings: Settings, playerCount: number): Settings {
   return {
     ...settings,
     imposterCount: clampImposterCount(settings.imposterCount, playerCount),
+    roundSeconds: settings.roundSecondsCustom
+      ? settings.roundSeconds
+      : recommendedRoundSeconds(playerCount),
   }
 }
 
@@ -45,6 +49,7 @@ export function initialState(): GameState {
     winner: null,
     lastPlayed: loadLastPlayed(),
     playersOrigin: 'home',
+    settingsOrigin: 'home',
   }
 }
 
@@ -62,11 +67,15 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'openPlayers':
       return { ...state, phase: 'players', playersOrigin: action.origin }
 
+    case 'openSettings':
+      return { ...state, phase: 'settings', settingsOrigin: action.origin }
+
     case 'addPlayer': {
       const trimmed = action.name.trim()
       if (!trimmed) return state
       if (state.players.includes(trimmed)) return state
-      return { ...state, players: [...state.players, trimmed] }
+      const players = [...state.players, trimmed]
+      return { ...state, players, settings: clampSettings(state.settings, players.length) }
     }
 
     case 'removePlayer': {
@@ -186,9 +195,17 @@ export function reducer(state: GameState, action: Action): GameState {
       return { ...state, phase: 'home', round: null, resultMostVoted: null, winner: null, cursor: 0 }
 
     case 'abortRound':
-      // Bail out mid-round (typically from the play screen). Discard the round
-      // and drop the host on the settings screen so they can adjust and start over.
-      return { ...state, phase: 'settings', round: null, resultMostVoted: null, winner: null, cursor: 0 }
+      // Bail out mid-round (typically from the play screen). Drop the host on
+      // settings with origin=categories so the Start button stays visible.
+      return {
+        ...state,
+        phase: 'settings',
+        settingsOrigin: 'categories',
+        round: null,
+        resultMostVoted: null,
+        winner: null,
+        cursor: 0,
+      }
 
     default:
       return state

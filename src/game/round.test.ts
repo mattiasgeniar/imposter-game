@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { startRound, tallyVotes } from './round'
 import type { CategoryWord, Settings } from './types'
 
-const SETTINGS: Settings = { imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'individual' }
+const SETTINGS: Settings = { imposterCount: 1, roundSeconds: 120, roundSecondsCustom: true, hintsEnabled: true, voteMode: 'individual' }
 
 const SAMPLE_WORDS: Record<string, CategoryWord[]> = {
   party: [

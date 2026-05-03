@@ -34,6 +34,7 @@
   "settings.time.subtitle": "How long each discussion round lasts.",
   "settings.time.decrease": "Shorter",
   "settings.time.increase": "Longer",
+  "settings.time.recommendation": "Recommended: {perPlayer}s × {count} players = {time}",
   "settings.hints.title": "Hints for imposters",
   "settings.hints.subtitle": "Should imposters get a vague related hint?",
   "settings.hints.on": "On",

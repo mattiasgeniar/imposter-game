@@ -16,15 +16,28 @@ export function todayISO(now: Date = new Date()): string {
   return `${yyyy}-${mm}-${dd}`
 }
 
+export const RECOMMENDED_SECONDS_PER_PLAYER = 30
+const ROUND_TIME_MIN = 30
+const ROUND_TIME_MAX = 600
+
+/**
+ * The per-player recommendation, snapped into the valid stepper range. Used as
+ * the default round time until the host explicitly adjusts the stepper.
+ */
+export function recommendedRoundSeconds(playerCount: number): number {
+  const raw = Math.max(0, playerCount) * RECOMMENDED_SECONDS_PER_PLAYER
+  return Math.max(ROUND_TIME_MIN, Math.min(ROUND_TIME_MAX, raw))
+}
+
 export const DEFAULT_SETTINGS: Settings = {
   imposterCount: 1,
-  roundSeconds: 180,
+  // Replaced by recommendedRoundSeconds(playerCount) in initialState/clampSettings
+  // unless the host has set roundSecondsCustom = true.
+  roundSeconds: recommendedRoundSeconds(0),
+  roundSecondsCustom: false,
   hintsEnabled: true,
   voteMode: 'group',
 }
-
-const ROUND_TIME_MIN = 30
-const ROUND_TIME_MAX = 600
 
 function safeGet(key: string): unknown {
   try {
@@ -65,11 +78,20 @@ function clampNumber(value: unknown, fallback: number, min: number, max: number)
   return Math.max(min, Math.min(max, Math.round(value)))
 }
 
+// Pre-migration default — anything else stored is treated as a deliberate
+// host override so we don't trample existing custom round lengths.
+const LEGACY_DEFAULT_ROUND_SECONDS = 180
+
 export function loadSettings(): Settings {
   const v = safeGet(KEYS.settings) as Partial<Settings> | undefined
+  const roundSeconds = clampNumber(v?.roundSeconds, DEFAULT_SETTINGS.roundSeconds, ROUND_TIME_MIN, ROUND_TIME_MAX)
+  const roundSecondsCustom = typeof v?.roundSecondsCustom === 'boolean'
+    ? v.roundSecondsCustom
+    : v?.roundSeconds !== undefined && roundSeconds !== LEGACY_DEFAULT_ROUND_SECONDS
   return {
     imposterCount: clampNumber(v?.imposterCount, DEFAULT_SETTINGS.imposterCount, 1, 99),
-    roundSeconds: clampNumber(v?.roundSeconds, DEFAULT_SETTINGS.roundSeconds, ROUND_TIME_MIN, ROUND_TIME_MAX),
+    roundSeconds,
+    roundSecondsCustom,
     hintsEnabled: typeof v?.hintsEnabled === 'boolean' ? v.hintsEnabled : DEFAULT_SETTINGS.hintsEnabled,
     voteMode: v?.voteMode === 'group' || v?.voteMode === 'individual'
       ? v.voteMode

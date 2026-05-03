@@ -34,6 +34,7 @@
   "settings.time.subtitle": "Hoe lang elke discussieronde duurt.",
   "settings.time.decrease": "Korter",
   "settings.time.increase": "Langer",
+  "settings.time.recommendation": "Aangeraden: {perPlayer}s × {count} spelers = {time}",
   "settings.hints.title": "Hints voor imposters",
   "settings.hints.subtitle": "Krijgt de imposter een verwante hint over het woord?",
   "settings.hints.on": "Aan",

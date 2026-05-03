@@ -57,16 +57,40 @@ describe('loadSettings', () => {
   })
 
   it('round-trips valid settings', () => {
-    saveSettings({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false, voteMode: 'group' })
-    expect(loadSettings()).toEqual({ imposterCount: 2, roundSeconds: 180, hintsEnabled: false, voteMode: 'group' })
+    saveSettings({ imposterCount: 2, roundSeconds: 240, roundSecondsCustom: true, hintsEnabled: false, voteMode: 'group' })
+    expect(loadSettings()).toEqual({ imposterCount: 2, roundSeconds: 240, roundSecondsCustom: true, hintsEnabled: false, voteMode: 'group' })
   })
 
   it('clamps roundSeconds to the valid 30..600 range', () => {
-    saveSettings({ imposterCount: 1, roundSeconds: 9999, hintsEnabled: true, voteMode: 'individual' })
+    saveSettings({ imposterCount: 1, roundSeconds: 9999, roundSecondsCustom: true, hintsEnabled: true, voteMode: 'individual' })
     expect(loadSettings().roundSeconds).toBe(600)
 
-    saveSettings({ imposterCount: 1, roundSeconds: -50, hintsEnabled: true, voteMode: 'individual' })
+    saveSettings({ imposterCount: 1, roundSeconds: -50, roundSecondsCustom: true, hintsEnabled: true, voteMode: 'individual' })
     expect(loadSettings().roundSeconds).toBe(30)
+  })
+
+  it('treats a stored 180 (the legacy default) as not custom for backward compat', () => {
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 180, hintsEnabled: true, voteMode: 'group' }),
+    )
+    expect(loadSettings().roundSecondsCustom).toBe(false)
+  })
+
+  it('infers custom=true when a stored roundSeconds differs from the legacy default', () => {
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 240, hintsEnabled: true, voteMode: 'group' }),
+    )
+    expect(loadSettings().roundSecondsCustom).toBe(true)
+  })
+
+  it('respects an explicit roundSecondsCustom flag over the legacy heuristic', () => {
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 240, roundSecondsCustom: false, hintsEnabled: true, voteMode: 'group' }),
+    )
+    expect(loadSettings().roundSecondsCustom).toBe(false)
   })
 
   it('falls back to group when voteMode is missing or invalid', () => {
@@ -83,7 +107,7 @@ describe('loadSettings', () => {
   })
 
   it('round-trips an individual voteMode', () => {
-    saveSettings({ imposterCount: 1, roundSeconds: 120, hintsEnabled: true, voteMode: 'individual' })
+    saveSettings({ imposterCount: 1, roundSeconds: 120, roundSecondsCustom: true, hintsEnabled: true, voteMode: 'individual' })
     expect(loadSettings().voteMode).toBe('individual')
   })
 

@@ -5,6 +5,12 @@ export type VoteMode = 'individual' | 'group'
 export type Settings = {
   imposterCount: number
   roundSeconds: number
+  /**
+   * False until the host adjusts the round-time stepper. While false, roundSeconds
+   * tracks the per-player recommendation as players are added/removed; once true,
+   * the host's chosen value sticks across player-count changes.
+   */
+  roundSecondsCustom: boolean
   hintsEnabled: boolean
   /**
    * 'individual' (default): each player privately votes. Ties trigger a runoff.
@@ -59,4 +65,11 @@ export type GameState = {
    * categories; 'settings' is the manual edit flow → continue returns to settings.
    */
   playersOrigin: 'home' | 'settings'
+  /**
+   * Where the settings screen was opened from. 'categories' is the setup
+   * flow (Home → categories → settings) and shows a Start button. 'home' is
+   * the manual prefs-tweak flow and hides Start, so the user can't bypass
+   * the category-selection step.
+   */
+  settingsOrigin: 'home' | 'categories'
 }

@@ -66,21 +66,62 @@ describe('initialState', () => {
     localStorage.setItem('imposter:categories', JSON.stringify(['party']))
     localStorage.setItem(
       'imposter:settings',
-      JSON.stringify({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false }),
+      JSON.stringify({ imposterCount: 1, roundSeconds: 90, roundSecondsCustom: true, hintsEnabled: false }),
     )
     const s = initialState()
     expect(s.players).toEqual(['Tuur', 'Floor'])
     expect(s.selectedCategoryIds).toEqual(['party'])
-    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, hintsEnabled: false, voteMode: 'group' })
+    expect(s.settings).toEqual({ imposterCount: 1, roundSeconds: 90, roundSecondsCustom: true, hintsEnabled: false, voteMode: 'group' })
   })
 
   it('clamps stored imposterCount that exceeds player count - 1', () => {
     localStorage.setItem('imposter:players', JSON.stringify(['A', 'B', 'C']))
     localStorage.setItem(
       'imposter:settings',
-      JSON.stringify({ imposterCount: 10, roundSeconds: 120, hintsEnabled: true }),
+      JSON.stringify({ imposterCount: 10, roundSeconds: 120, roundSecondsCustom: true, hintsEnabled: true }),
     )
     expect(initialState().settings.imposterCount).toBe(2)
+  })
+
+  it('uses the per-player recommendation as the default round time when not customised', () => {
+    localStorage.setItem('imposter:players', JSON.stringify(['A', 'B', 'C', 'D']))
+    // No stored settings → defaults, then clampSettings replaces roundSeconds with 4 × 30s.
+    expect(initialState().settings.roundSeconds).toBe(120)
+  })
+
+  it('preserves a host-customised round time across player count changes', () => {
+    localStorage.setItem('imposter:players', JSON.stringify(['A', 'B', 'C', 'D']))
+    localStorage.setItem(
+      'imposter:settings',
+      JSON.stringify({ imposterCount: 1, roundSeconds: 240, roundSecondsCustom: true, hintsEnabled: true, voteMode: 'group' }),
+    )
+    expect(initialState().settings.roundSeconds).toBe(240)
+  })
+})
+
+describe('recommended round time', () => {
+  it('tracks player count when the host has not customised the timer', () => {
+    let s = withPlayers('A', 'B', 'C')
+    expect(s.settings.roundSecondsCustom).toBe(false)
+    expect(s.settings.roundSeconds).toBe(90)
+
+    s = reducer(s, { type: 'addPlayer', name: 'D' })
+    expect(s.settings.roundSeconds).toBe(120)
+
+    s = reducer(s, { type: 'addPlayer', name: 'E' })
+    expect(s.settings.roundSeconds).toBe(150)
+
+    s = reducer(s, { type: 'removePlayer', index: 0 })
+    expect(s.settings.roundSeconds).toBe(120)
+  })
+
+  it('stops auto-tracking once the host marks the timer as custom', () => {
+    let s = withPlayers('A', 'B', 'C')
+    s = reducer(s, { type: 'setSettings', settings: { ...s.settings, roundSeconds: 300, roundSecondsCustom: true } })
+    expect(s.settings.roundSeconds).toBe(300)
+
+    s = reducer(s, { type: 'addPlayer', name: 'D' })
+    expect(s.settings.roundSeconds).toBe(300)
   })
 })
 
@@ -107,6 +148,22 @@ describe('openPlayers', () => {
     const next = reducer(s, { type: 'openPlayers', origin: 'settings' })
     expect(next.phase).toBe('players')
     expect(next.playersOrigin).toBe('settings')
+  })
+})
+
+describe('openSettings', () => {
+  it('routes to settings with origin=home so the Start button is hidden', () => {
+    const s = initialState()
+    const next = reducer(s, { type: 'openSettings', origin: 'home' })
+    expect(next.phase).toBe('settings')
+    expect(next.settingsOrigin).toBe('home')
+  })
+
+  it('routes to settings with origin=categories for the setup flow', () => {
+    const s = initialState()
+    const next = reducer(s, { type: 'openSettings', origin: 'categories' })
+    expect(next.phase).toBe('settings')
+    expect(next.settingsOrigin).toBe('categories')
   })
 })
 
@@ -434,6 +491,13 @@ describe('abortRound', () => {
     expect(next.cursor).toBe(0)
     // Player list and settings survive — only the round is cancelled.
     expect(next.players).toEqual(['A', 'B', 'C'])
+  })
+
+  it('lands on settings with origin=categories so Start stays available', () => {
+    const s = withRound(withPlayers('A', 'B', 'C'))
+    const dirty: GameState = { ...s, phase: 'play', settingsOrigin: 'home' }
+    const next = reducer(dirty, { type: 'abortRound' })
+    expect(next.settingsOrigin).toBe('categories')
   })
 })
 

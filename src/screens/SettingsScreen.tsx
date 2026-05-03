@@ -6,6 +6,7 @@ import { useLocale, useT } from '../i18n/LocaleProvider'
 import { AVAILABLE_LOCALES } from '../i18n/locales'
 import type { Locale } from '../game/types'
 import { formatTime } from '../game/format'
+import { RECOMMENDED_SECONDS_PER_PLAYER, recommendedRoundSeconds } from '../game/persistence'
 import type { Settings } from '../game/types'
 import type { InstallState } from '../lib/install'
 import { forceRefresh } from '../lib/force-refresh'
@@ -15,6 +16,11 @@ type Props = {
   players: string[]
   categoryCount: number
   install: InstallState
+  /**
+   * 'categories' = setup flow (Home → categories → settings) → footer shows Start.
+   * 'home' = manual prefs tweak → no Start (user must back out and pick a category).
+   */
+  origin: 'home' | 'categories'
   onChange: (s: Settings) => void
   onEditPlayers: () => void
   onStart: () => void
@@ -31,6 +37,7 @@ export function SettingsScreen({
   players,
   categoryCount,
   install,
+  origin,
   onChange,
   onEditPlayers,
   onStart,
@@ -41,9 +48,10 @@ export function SettingsScreen({
   const playerCount = players.length
   const maxImposters = Math.max(1, playerCount - 1)
   const canStart = playerCount >= MIN_PLAYERS && categoryCount >= 1
+  const showStart = origin === 'categories'
 
   return (
-    <Screen footer={<Button onClick={onStart} disabled={!canStart}>{t('settings.start')}</Button>}>
+    <Screen footer={showStart ? <Button onClick={onStart} disabled={!canStart}>{t('settings.start')}</Button> : undefined}>
       <ScreenHeader title={t('settings.title')} onBack={onBack} />
 
       <div className="flex-1 scroll-smooth-y space-y-4 pb-2">
@@ -84,8 +92,17 @@ export function SettingsScreen({
             format={formatTime}
             decreaseLabel={t('settings.time.decrease')}
             increaseLabel={t('settings.time.increase')}
-            onChange={(n) => onChange({ ...settings, roundSeconds: n })}
+            onChange={(n) => onChange({ ...settings, roundSeconds: n, roundSecondsCustom: true })}
           />
+          {playerCount > 0 && (
+            <p className="text-xs text-white/50 mt-2 leading-snug">
+              {t('settings.time.recommendation', {
+                perPlayer: RECOMMENDED_SECONDS_PER_PLAYER,
+                count: playerCount,
+                time: formatTime(recommendedRoundSeconds(playerCount)),
+              })}
+            </p>
+          )}
         </Card>
 
         <Card title={t('settings.hints.title')} subtitle={t('settings.hints.subtitle')}>
