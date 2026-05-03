@@ -22,6 +22,7 @@
 
   "settings.title": "Game settings",
   "settings.start": "Start round",
+  "settings.done": "Done",
   "settings.players.title": "Players",
   "settings.players.subtitle": "Edit the names that play this round.",
   "settings.players.edit": "Edit",

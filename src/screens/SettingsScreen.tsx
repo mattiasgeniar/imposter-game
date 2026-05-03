@@ -48,10 +48,15 @@ export function SettingsScreen({
   const playerCount = players.length
   const maxImposters = Math.max(1, playerCount - 1)
   const canStart = playerCount >= MIN_PLAYERS && categoryCount >= 1
-  const showStart = origin === 'categories'
+  const footer =
+    origin === 'categories' ? (
+      <Button onClick={onStart} disabled={!canStart}>{t('settings.start')}</Button>
+    ) : (
+      <Button variant="ghost" onClick={onBack}>{t('settings.done')}</Button>
+    )
 
   return (
-    <Screen footer={showStart ? <Button onClick={onStart} disabled={!canStart}>{t('settings.start')}</Button> : undefined}>
+    <Screen footer={footer}>
       <ScreenHeader title={t('settings.title')} onBack={onBack} />
 
       <div className="flex-1 scroll-smooth-y space-y-4 pb-2">

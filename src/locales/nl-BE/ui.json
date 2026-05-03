@@ -22,6 +22,7 @@
 
   "settings.title": "Spelinstellingen",
   "settings.start": "Start ronde",
+  "settings.done": "Klaar",
   "settings.players.title": "Spelers",
   "settings.players.subtitle": "Pas de namen aan die deze ronde meespelen.",
   "settings.players.edit": "Bewerk",

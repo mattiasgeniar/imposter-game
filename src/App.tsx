@@ -77,7 +77,7 @@ function Game() {
               navigate({ type: 'goto', phase: 'categories' })
             }
           }}
-          onOpenSettings={() => navigate({ type: 'goto', phase: 'settings' })}
+          onOpenSettings={() => navigate({ type: 'openSettings', origin: 'home' })}
           banner={
             install.canInstall && showInstallToast ? (
               <InstallToast
@@ -117,24 +117,27 @@ function Game() {
         <CategoriesScreen
           selected={state.selectedCategoryIds}
           onToggle={(id) => dispatch({ type: 'toggleCategory', id })}
-          onContinue={() => navigate({ type: 'goto', phase: 'settings' })}
+          onContinue={() => navigate({ type: 'openSettings', origin: 'categories' })}
           onBack={() => navigate({ type: 'goto', phase: 'home' }, 'back')}
         />
       )
 
-    case 'settings':
+    case 'settings': {
+      const fromHome = state.settingsOrigin === 'home'
       return (
         <SettingsScreen
           settings={state.settings}
           players={state.players}
           categoryCount={state.selectedCategoryIds.length}
           install={install}
+          origin={state.settingsOrigin}
           onChange={(s) => dispatch({ type: 'setSettings', settings: s })}
           onEditPlayers={() => navigate({ type: 'openPlayers', origin: 'settings' })}
-          onBack={() => navigate({ type: 'goto', phase: 'categories' }, 'back')}
+          onBack={() => navigate({ type: 'goto', phase: fromHome ? 'home' : 'categories' }, 'back')}
           onStart={() => navigate({ type: 'startRound', words: bundle.words })}
         />
       )
+    }
 
     case 'handoff': {
       if (!state.round) return null
@@ -146,6 +149,7 @@ function Game() {
           total={state.players.length}
           variant="reveal"
           onContinue={() => navigate({ type: 'goto', phase: 'reveal' })}
+          onAbort={() => navigate({ type: 'abortRound' }, 'back')}
         />
       )
     }
@@ -162,6 +166,7 @@ function Game() {
           hint={state.round.hint}
           hintsEnabled={state.settings.hintsEnabled}
           onContinue={() => navigate({ type: 'advanceReveal' })}
+          onAbort={() => navigate({ type: 'abortRound' }, 'back')}
         />
       )
     }
@@ -189,6 +194,7 @@ function Game() {
           total={state.players.length}
           variant="vote"
           onContinue={() => navigate({ type: 'goto', phase: 'vote' })}
+          onAbort={() => navigate({ type: 'abortRound' }, 'back')}
         />
       )
     }
