@@ -12,6 +12,7 @@
     "test:run": "vitest run"
   },
   "dependencies": {
+    "@mattiasgeniar/pwa-install-prompt": "github:mattiasgeniar/pwa-install-prompt",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
