@@ -1,3 +1,4 @@
+import type { UseInstallPromptResult } from '@mattiasgeniar/pwa-install-prompt'
 import { Screen } from '../components/Screen'
 import { Button } from '../components/Button'
 import { ScreenHeader } from '../components/ScreenHeader'
@@ -8,14 +9,13 @@ import type { Locale } from '../game/types'
 import { formatTime } from '../game/format'
 import { RECOMMENDED_SECONDS_PER_PLAYER, recommendedRoundSeconds } from '../game/persistence'
 import type { Settings } from '../game/types'
-import type { InstallState } from '../lib/install'
 import { forceRefresh } from '../lib/force-refresh'
 
 type Props = {
   settings: Settings
   players: string[]
   categoryCount: number
-  install: InstallState
+  install: UseInstallPromptResult
   /**
    * 'categories' = setup flow (Home → categories → settings) → footer shows Start.
    * 'home' = manual prefs tweak → no Start (user must back out and pick a category).
@@ -195,7 +195,7 @@ function formatBuildDate(iso: string, locale: Locale): string {
   return d.toLocaleDateString(locale, { year: 'numeric', month: 'short', day: 'numeric' })
 }
 
-function InstallSection({ install }: { install: InstallState }) {
+function InstallSection({ install }: { install: UseInstallPromptResult }) {
   const t = useT()
 
   if (install.installed) {

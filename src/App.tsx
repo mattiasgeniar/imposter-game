@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useInstallPrompt } from '@mattiasgeniar/pwa-install-prompt'
 import { LocaleProvider, useLocale } from './i18n/LocaleProvider'
 import { arePlayersStale, initialState, reducer } from './game/machine'
 import type { Action } from './game/machine'
@@ -8,7 +9,6 @@ import {
   saveSettings,
 } from './game/persistence'
 import { withTransition } from './lib/navigate'
-import { useInstallPrompt } from './lib/install'
 import { Button } from './components/Button'
 import { InstallToast } from './components/InstallToast'
 import { HomeScreen } from './screens/HomeScreen'
